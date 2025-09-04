@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,66 +8,30 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0; padding: 0;
-            background: #f8f6f2;
+            margin: 0;
+            padding: 0;
+            background: #fce4ec;
+            /* rosado claro */
         }
+
         header {
-            background: #6b3e26;
-            color: #fff;
+            background: #fce4ec;
+            /* celeste */
+            color: #00bcd4;
             padding: 20px 0;
             text-align: center;
         }
+
         nav {
-            background: #a67c52;
+            background: #ff4081;
+            /* naranjo */
             padding: 10px 0;
             text-align: center;
         }
+
         nav a {
-            color: #fff;
-            margin: 0 15px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-        .products {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
-        }
-        .product {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            width: 250px;
-            padding: 20px;
-            text-align: center;
-        }
-        .product img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 6px;
-        }
-        .product h3 {
-            margin: 15px 0 10px;
-            font-size: 1.2em;
-        }
-        .product p {
-            color: #6b3e26;
-            font-size: 1em;
-        }
-        .product .price {
-            font-weight: bold;
-            color: #a67c52;
-            margin: 10px 0;
-        }
-        .product button {
-            background: #6b3e26;
+            background: #ff4081;
+            /* rosado fuerte */
             color: #fff;
             border: none;
             padding: 10px 20px;
@@ -74,19 +39,89 @@
             cursor: pointer;
             font-size: 1em;
         }
-        footer {
-            background: #a67c52;
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .product {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            width: 250px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .product h3 {
+            margin: 15px 0 10px;
+            font-size: 1.2em;
+            color: #ff4081;
+            /* rosado fuerte */
+        }
+
+        .product p {
+            color: #00bcd4;
+            /* celeste */
+            font-size: 1em;
+        }
+
+        .product .price {
+            font-weight: bold;
+            color: #ff9800;
+            /* naranjo */
+            margin: 10px 0;
+        }
+
+        .product button {
+            background: #ff4081;
+            /* rosado fuerte */
             color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        footer {
+            background: #ff4081;
+            /* celeste */
+            color: #00bcd4;
             text-align: center;
             padding: 15px 0;
             margin-top: 40px;
         }
+
+        h2 {
+            text-align: center;
+            color: #ff4081;
+            /* rosado fuerte */
+            margin-bottom: 30px;
+        }
     </style>
 </head>
+
 <body>
-    <header>
+    <header><img src="img/Perfil instagram.png" alt="Logo Dulce Osadía" style="height: 80px;">
         <h1>Dulce Osadía</h1>
-        <p>La mejor tienda de chocolates artesanales</p>
+        <p>Chocolates artesanales con estilo y color</p>
     </header>
     <nav>
         <a href="#">Inicio</a>
@@ -98,30 +133,37 @@
         <h2>Nuestros Chocolates</h2>
         <div class="products">
             <div class="product">
-                <img src="C:\Users\thexc\OneDrive\Documentos\GitHub\Capstone_DulceOsadia\Dulce_Osadia\img\img1.jpg" alt="Chocolate negro">
-                <h3>Chocolate Negro 70%</h3>
-                <p>Intenso y puro, elaborado con cacao seleccionado.</p>
+                <img src="img/Recurso 59.png" alt="Bombón Celeste">
+                <h3>Bombón Celeste</h3>
+                <p>Chocolate relleno de crema de vainilla y decorado con tonos celestes.</p>
                 <div class="price">$1.200 CLP</div>
                 <button>Agregar al carrito</button>
             </div>
             <div class="product">
-                <img src="C:\Users\thexc\OneDrive\Documentos\GitHub\Capstone_DulceOsadia\Dulce_Osadia\img\img2.jpg" alt="Chocolate con leche">
-                <h3>Chocolate con Leche</h3>
-                <p>Suave y cremoso, perfecto para todos los gustos.</p>
+                <img src="img/Recurso 60.png" alt="Trufa Naranja">
+                <h3>Trufa Naranja</h3>
+                <p>Deliciosa trufa de chocolate con relleno cítrico y cobertura naranjo vibrante.</p>
                 <div class="price">$1.100 CLP</div>
                 <button>Agregar al carrito</button>
             </div>
             <div class="product">
-                <img src="C:\Users\thexc\OneDrive\Documentos\GitHub\Capstone_DulceOsadia\Dulce_Osadia\img\img3.jpg" alt="Chocolate blanco">
-                <h3>Chocolate Blanco</h3>
-                <p>Delicado y dulce, ideal para los amantes del chocolate blanco.</p>
+                <img src="img/Recurso 61.png" alt="Trufa">
+                <h3>Trufa</h3>
+                <p>Trufa de chocolate rellenas con manjar cremoso y notas alicoradas.</p>
                 <div class="price">$1.150 CLP</div>
                 <button>Agregar al carrito</button>
             </div>
             <div class="product">
-                <img src="C:\Users\thexc\OneDrive\Documentos\GitHub\Capstone_DulceOsadia\Dulce_Osadia\img\img4.jpg" alt="Trufas de chocolate">
-                <h3>Trufas de Chocolate</h3>
-                <p>Rellenas de ganache, una explosión de sabor en cada bocado.</p>
+                <img src="img/Recurso 62.png" alt="Mix de Colores">
+                <h3>Mix de Colores</h3>
+                <p>Bombones surtidos con rellenos frutales y decoraciones celeste, naranjo y rosado.</p>
+                <div class="price">$1.500 CLP</div>
+                <button>Agregar al carrito</button>
+            </div>
+            <div class="product">
+                <img src="img/Recurso 63.png" alt="Corazón Dulce">
+                <h3>Alfajor</h3>
+                <p>Chocolate en forma de corazón, relleno de crema suave y decorado con colores pastel.</p>
                 <div class="price">$1.500 CLP</div>
                 <button>Agregar al carrito</button>
             </div>
@@ -131,4 +173,5 @@
         &copy; 2025 Dulce Osadía. Todos los derechos reservados.
     </footer>
 </body>
+
 </html>
