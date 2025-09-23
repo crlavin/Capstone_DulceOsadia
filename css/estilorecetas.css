@@ -1,0 +1,61 @@
+body {
+  background-color: #fed794;
+  background-image: url('/Dulce_Osadia/img/Patrones_celestes/Recurso\ 105.png'); /* ajusta la ruta */
+  background-repeat: repeat; /* o 'no-repeat' si quieres una sola */
+  background-size: contain; /* o 'cover' si quieres que se estire */
+  background-position: center;
+  color: #333; /* texto oscuro para buen contraste */
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+
+.tarjetas-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 40px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.tarjeta {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.3s ease;
+}
+
+.tarjeta:hover {
+  transform: scale(1.03);
+}
+
+.tarjeta img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.tarjeta h3 {
+  margin: 15px 0 10px;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.tarjeta p {
+  font-size: 0.95em;
+  color: #666;
+}
+
+.tarjeta a {
+  display: inline-block;
+  margin-top: 10px;
+  color: #b85c38;
+  text-decoration: none;
+  font-weight: bold;
+}

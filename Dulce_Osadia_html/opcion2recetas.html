@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/estilosopcion2.css">
+</head>
+<body>
+   <form>
+  <h2>Planificar receta</h2>
+
+  <!-- Producto final -->
+  <label for="producto">Producto final:</label>
+  <select id="producto" name="producto" required>
+    <option value="">-- Selecciona producto --</option>
+    <option value="bombon_crema_mani">Bombón crema de maní</option>
+    <option value="nuez_rellena">Nuez Rellena</option>
+    <option value="bombon_avellana">Bombón de avellana</option>
+    <option value="cuchuflie">Cuchuflíe</option>
+    <option value="alfajor_tradicional">Alfajor Tradicional</option>
+    <option value="alfajor_tradicional_blanco">Alfajor Tradicional Blanco</option>
+    <option value="alfajor_frambuesa_blanco">Alfajor Frambuesa Blanco</option>
+    <option value="alfajor_frambuesa_negro">Alfajor Frambuesa Negro</option>
+    <option value="chocolates_sin_azucar">Chocolates sin azúcar</option>
+    <option value="nuez_sin_azucar">Nuez rellena sin azúcar</option>
+    <option value="cocadas">Cocadas</option>
+    <option value="trufas_ron">Trufas con sabor a ron</option>
+    <option value="prestigio_coco">Prestigio de coco</option>
+    <option value="mix_bombones">Mix de bombones</option>
+    <option value="barra_dubai">Barra de chocolate tipo Dubai</option>
+    <option value="mini_barra_dubai">Mini Barra de chocolate tipo Dubai</option>
+  </select>
+
+  <!-- Cantidad deseada -->
+  <label for="cantidad_producto">¿Cuántas unidades quieres producir?</label>
+  <input type="number" id="cantidad_producto" name="cantidad_producto" min="1" required>
+
+  <!-- Insumos requeridos -->
+  <h3>Insumos necesarios</h3>
+
+  <div class="insumo">
+    <label for="insumo1">Insumo 1:</label>
+    <select id="insumo1" name="insumo1">
+      <option value="">-- Selecciona insumo --</option>
+      <option value="chocolate">Chocolate (Stock: 5000g)</option>
+      <option value="avellana">Avellana (Stock: 2000g)</option>
+      <option value="galleta">Galleta (Stock: 3000g)</option>
+      <option value="frambuesa">Frambuesa (Stock: 1500g)</option>
+      <option value="coco">Coco (Stock: 2500g)</option>
+      <option value="manjar">Manjar (Stock: 1800g)</option>
+      <option value="nuez">Nuez (Stock: 1200g)</option>
+      <option value="stevia">Stevia (Stock: 800g)</option>
+      <!-- Puedes agregar más insumos simulados -->
+    </select>
+    <label for="cantidad1">Cantidad por unidad:</label>
+    <input type="number" name="cantidad1" placeholder="Ej: 20g" required>
+  </div>
+
+  <!-- Puedes duplicar este bloque para más insumos -->
+
+  <button type="submit">Simular disponibilidad</button>
+</form>
+
+
+</body>
+</html>

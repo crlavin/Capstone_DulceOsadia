@@ -1,0 +1,63 @@
+body {
+  background-color: #fed794;
+  background-image: url('/Dulce_Osadia/img/Patrones_celestes/Recurso 105.png');
+  background-repeat: repeat;
+  background-size: contain;
+  background-position: center;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+/* Contenedor del formulario */
+form {
+  max-width: 600px;
+  margin: 60px auto;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Títulos y etiquetas */
+form h2 {
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  color: #b85c38;
+}
+
+label {
+  display: block;
+  margin: 15px 0 5px;
+  font-weight: bold;
+}
+
+/* Campos de entrada */
+input[type="text"],
+input[type="number"],
+select {
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+  margin-bottom: 15px;
+}
+
+/* Botón */
+button {
+  background-color: #b85c38;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #a04a2f;
+}
