@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST" action="editarinsumo.php">
+  <h2>Actualizar insumo</h2>
+
+  <label for="id_insumo">Selecciona insumo:</label>
+  <select name="id_insumo" required>
+    <option value="">-- Selecciona --</option>
+    <option value="1">Chocolate blanco</option>
+    <option value="2">Maní sin sal</option>
+    <!-- Puedes generar esto dinámicamente desde PHP -->
+  </select>
+
+  <label for="cantidadActual">Cantidad actual (g):</label>
+  <input type="number" step="0.01" name="cantidadActual" required>
+
+  <label for="precioUnitario">Precio unitario ($):</label>
+  <input type="number" step="0.01" name="precioUnitario" required>
+
+  <label for="fecha_ingreso">Fecha ingreso:</label>
+  <input type="date" name="fecha_ingreso">
+
+  <label for="fecha_vencimiento">Fecha vencimiento:</label>
+  <input type="date" name="fecha_vencimiento">
+
+  <button type="submit">Actualizar</button>
+</form>
+
+</body>
+</html>

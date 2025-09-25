@@ -39,14 +39,14 @@ if ($id_receta && $cantidad) {
       dr.cantidad_usada * ? AS cantidad_total,
       dr.unidad,
       i.precioUnitario,
-      ROUND((dr.cantidad_usada * ? * i.precioUnitario / i.cantidadActual), 2) AS costo_total
+      ROUND((dr.cantidad_usada * ? * i.precioUnitario / 1000), 2) AS costo_total
     FROM detalleReceta dr
     JOIN insumos i ON dr.id_insumo = i.id_insumo
     WHERE dr.id_receta = ?
   ";
 
   $stmt = $conexion->prepare($sql);
-  $stmt->bind_param("iii", $cantidad, $cantidad, $id_receta);
+  $stmt->bind_param("ddi", $cantidad, $cantidad, $id_receta);
   $stmt->execute();
   $resultado = $stmt->get_result();
 
