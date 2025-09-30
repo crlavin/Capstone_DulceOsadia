@@ -1,6 +1,6 @@
 body {
   background-color: #fed794;
-  background-image: url('/Dulce_Osadia/img/Patrones_celestes/Recurso\ 105.png'); /* ajusta la ruta */
+  background-image: url('../img/Patrones_celestes/Recurso_105.png'); /* ajusta la ruta */
   background-repeat: repeat; /* o 'no-repeat' si quieres una sola */
   background-size: contain; /* o 'cover' si quieres que se estire */
   background-position: center;
