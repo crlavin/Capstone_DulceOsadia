@@ -50,7 +50,7 @@ if ($id_receta && $cantidad) {
   $stmt->execute();
   $resultado = $stmt->get_result();
 
-  echo "<link rel='stylesheet' href='css/estilosopcion2.css'>";
+  echo "<link rel='stylesheet' href='../css/estilosopcion2.css'>";
   echo "<h2>Insumos necesarios para $cantidad unidades de " . str_replace("_", " ", $producto) . "</h2>";
   echo "<table border='1'><tr><th>Insumo</th><th>Cantidad total</th><th>Unidad</th><th>Costo total</th></tr>";
 
