@@ -52,6 +52,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <meta charset="UTF-8">
   <title>Registro de Usuario</title>
   <link rel="stylesheet" href="../css/registrologin.css">
+  <style>
+  body {
+    background-color: #c41f3d;
+    background-image: url("../img/Patrones_celestes/recurso_105.png");
+    background-repeat: repeat;
+    background-size: cover;
+    background-position: center;
+  }
+</style>
 </head>
 <body>
 

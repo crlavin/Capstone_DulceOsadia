@@ -12,7 +12,15 @@ session_start();
   <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
-
+<style>
+  body {
+    background-color: #fed794;
+    background-image: url("../img/Patrones_rosados/Recurso_108.png");
+    background-repeat: repeat;
+    background-size: cover;
+    background-position: center;
+  }
+</style>
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="logo">
@@ -24,6 +32,9 @@ session_start();
     <div class="menu-toggle" id="menu-toggle">☰</div>
 
     <ul class="nav-link" id="nav-link">
+  <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
+  <li><a href="gestion_admin.php">Panel de Gestión</a></li>
+  <?php endif; ?>
   <li><a href="index.php">Inicio</a></li>
   <li><a href="../Productos/catalogo.php">Catálogo</a></li>
   <li><a href="../html/nosotros.html">Sobre Nosotros</a></li>
@@ -33,8 +44,8 @@ session_start();
     <!-- Usuario autenticado -->
     <li><a href="../html/perfil.html">Perfil (<?php echo htmlspecialchars($_SESSION['nombre']); ?>)</a></li>
     <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
-      <li><a href="crear_receta.php">Crear Receta</a></li>
-      <li><a href="editar_insumo.php">Editar Insumos</a></li>
+      <li><a href="procesar.php">Crear Receta</a></li>
+      <li><a href="editarinsumo.php">Editar Insumos</a></li>
     <?php endif; ?>
     <li><a href="logout.php">Cerrar sesión</a></li>
   <?php else: ?>

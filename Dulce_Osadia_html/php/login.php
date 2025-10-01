@@ -44,7 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           $_SESSION['rol'] = $row['rol'];
           $success = 'Usuario logueado correctamente';
           // redirigir con pequeño delay para mostrar toast
-          echo "<script>window.onload = function(){ localStorage.setItem('toast', " . json_encode($success) . "); window.location.href='index.php'; }</script>";
+          if ($_SESSION['rol'] === 'admin') {
+            echo "<script>window.onload = function(){ localStorage.setItem('toast', " . json_encode($success) . "); window.location.href='procesar.php'; }</script>";
+          } else {
+            echo "<script>window.onload = function(){ localStorage.setItem('toast', " . json_encode($success) . "); window.location.href='index.php'; }</script>";
+}
+
           exit();
         } else {
           $error = 'Usuario o contraseña incorrectos.';
@@ -86,6 +91,15 @@ if (isset($error) && $error !== '') {
     #toast.success { background: #2e7d32; }
     #toast.error { background: #c62828; }
     .form-container { max-width:400px; margin:40px auto; }
+
+  body {
+    background-color: #c41f3d;
+    background-image: url("../img/Patrones_celestes/recurso_105.png");
+    background-repeat: repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
   </style>
 </head>
 <body>
