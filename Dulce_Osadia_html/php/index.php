@@ -145,30 +145,30 @@ session_start();
     </div>
 
     <div class="tarjeta">
-      <img src="" alt="Mix Bombones" />
+      <img src="../img/13.png" alt="Mix Bombones" />
       <h3>Mix Bombones</h3>
-      <p>Ingredientes Principales: </p>
-      <a href="../img/13.png">Ver más</a>
+      <p>Bombones Principales:Trufas ron,cocadas,Nuez choc y BOMBOM mani . </p>
+      <a href="../Productos/mixbombones.html">Ver más</a>
     </div>
 
     <div class="tarjeta">
-      <img src="" alt="Prestigio Coco" />
-      <h3>*****</h3>
-      <p>Ingredientes Principales: </p>
+      <img src="../img/prestigio.png" alt="Prestigio Coco" />
+      <h3>Prestigio Coco</h3>
+      <p>Ingredientes Principales : Leche condensada,chocolate y coco.</p>
       <a href="../Productos/prestigiococo.html">Ver más</a>
     </div>
 
     <div class="tarjeta">
-      <img src="" alt="Dubai" />
-      <h3>*****</h3>
-      <p>Ingredientes Principales: </p>
+      <img src="../img/14.png" alt="Mini Dubai" />
+      <h3>Mini Barra de Dubai</h3>
+      <p>Ingredientes Principales : Chocolate , Pistacho</p>
       <a href="../Productos/dubai.html">Ver más</a>
     </div>
 
     <div class="tarjeta">
-      <img src="" alt="Mini Dubai" />
-      <h3>*****</h3>
-      <p>Ingredientes Principales: </p>
+      <img src="../img/15.png" alt="Dubai" />
+      <h3>Barra Dubai </h3>
+      <p>Ingredientes Principales:Chocolate , Pistacho </p>
       <a href="../Productos/minidubai.html">Ver más</a>
     </div>
 
