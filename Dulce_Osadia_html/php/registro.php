@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   </div>
   <div class="menu-toggle" id="menu-toggle">☰</div>
   <ul class="nav-link" id="nav-link">
-    <li><a href="../html/index.html">Inicio</a></li>
+    <li><a href="../php/index.php">Inicio</a></li>
     <li><a href="#">Catálogo</a></li>
     <li><a href="#">Sobre Nosotros</a></li>
     <li><a href="#">Carrito</a></li>

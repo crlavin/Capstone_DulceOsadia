@@ -32,7 +32,8 @@ $mapa_recetas = [
   "prestigio_coco" => 13,
   "mix_bombones" => 14,
   "barra_dubai" => 15,
-  "mini_barra_dubai" => 16
+  "mini_barra_dubai" => 16,
+  "Trufa_Naranja" => 17
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

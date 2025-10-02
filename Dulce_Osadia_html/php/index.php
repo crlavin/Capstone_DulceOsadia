@@ -146,9 +146,9 @@ session_start();
 
     <div class="tarjeta">
       <img src="" alt="Mix Bombones" />
-      <h3>*****</h3>
+      <h3>Mix Bombones</h3>
       <p>Ingredientes Principales: </p>
-      <a href="../Productos/mixbombones.html">Ver más</a>
+      <a href="../img/13.png">Ver más</a>
     </div>
 
     <div class="tarjeta">

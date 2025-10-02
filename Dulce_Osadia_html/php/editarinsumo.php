@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
+  header('Location: ../index.php'); // o login.php si prefieres
+  exit();
+}
+?>
+<?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -68,6 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       <option value="14">Ron (esencia)</option>
       <option value="15">Leche condensada</option>
       <option value="16">Pistacho</option>
+      <option value="17">Naranja(esencia)</option>
     </select>
 
     <label for="cantidadActual">Cantidad actual (g):</label>
