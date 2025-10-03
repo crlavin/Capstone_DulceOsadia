@@ -110,21 +110,21 @@ session_start();
 
     
     <div class="tarjeta">
-      <img src="../img/alfablanco.png" alt="Alfajor" />
+      <img src="../img/Recursosrecetasimg/alfablanco.png" alt="Alfajor" />
       <h3>Alfajor Tradicional Blanco</h3>
       <p>Ingredientes Principales:Galletas alfajor origen argentino, Manjar y cobertura de chocolate blanco. </p>
       <a href="../Productos/alfajortradiblanco.html">Ver más</a>
     </div>
 
     <div class="tarjeta">
-      <img src="../img/frambuesanegro.png" alt="Alfajor" />
+      <img src="../img/Recursosrecetasimg/frambuesanegro.png" alt="Alfajor" />
       <h3>Alfajor Frambuesa</h3>
       <p>Ingredientes Principales: Galletas alfajor origen argentino, Mermelada frambuesa y cobertura de chocolate.</p>
       <a href="../Productos/alfajorfram.html">Ver más</a>
     </div>
 
     <div class="tarjeta">
-      <img src="../img/frambuesabl.png" alt="Alfajor" />
+      <img src="../img/Recursosrecetasimg/frambuesabl.png" alt="Alfajor" />
       <h3>Alfajor Frambuesa Chocolate Blanco</h3>
       <p>Ingredientes Principales: Galletas alfajor origen argentino, Mermelada frambuesa y cobertura de chocolate blanco. </p>
       <a href="../Productos/alfajorframblanco.html">Ver más</a>
@@ -138,7 +138,7 @@ session_start();
     </div>
 
     <div class="tarjeta">
-      <img src="../img/cocada.png" alt="Cocadas" />
+      <img src="../img/Recursosrecetasimg/cocada.png" alt="Cocadas" />
       <h3>Cocadas</h3>
       <p>Ingredientes Principales: Manjar y coco</p>
       <a href="../Productos/cocadas.html">Ver más</a>
