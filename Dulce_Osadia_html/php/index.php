@@ -24,7 +24,7 @@ session_start();
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="logo">
-      <a href="index.php">
+      <a href="../php/index.php">
         <img src="../img/Perfil_instagram.png" alt="Dulce Osadía" class="logo-img" />
       </a>
     </div>
@@ -35,7 +35,7 @@ session_start();
   <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
   <li><a href="gestion_admin.php">Panel de Gestión</a></li>
   <?php endif; ?>
-  <li><a href="index.php">Inicio</a></li>
+  <li><a href="../php/index.php">Inicio</a></li>
   <li><a href="../Productos/catalogo.php">Catálogo</a></li>
   <li><a href="../html/nosotros.html">Sobre Nosotros</a></li>
   <li><a href="../html/carrito.html">Carrito</a></li>
@@ -74,116 +74,116 @@ session_start();
   <div class="tarjetas-container">
 
     <div class="tarjeta">
-      <img src="../img/Recursosrecetasimg/3.png" alt="Alfajor Tradicional Blanco" />
+      <img src="../img/Recursosrecetasimg/3.png" alt="Nuez Choc" />
       <h3>Nuez Choc</h3>
       <p>Ingredientes Principales: Nueces, Manjar y cobertura de chocolate.</p>
-      <a href="../Productos/nuezchoc.html">Ver más</a>
+      <a href="../Productos/nuezchoc.php">Ver más</a>
     </div>
 
     <div class="tarjeta">
-      <img src="../img/Recursosrecetasimg/4.png" alt="Bombón de Avellana" />
+      <img src="../img/Recursosrecetasimg/4.png" alt="Cuchuflies" />
       <h3>Cuchuflies</h3>
       <p>Ingredientes Principales: Manjar, Vaina de trigo y cobertura de chocolate.</p>
-      <a href="../Productos/cuchuflies.html">Ver más</a>
+      <a href="../Productos/cuchuflies.php">Ver más</a>
     </div>
 
     <div class="tarjeta">
-      <img src="../img/Recursosrecetasimg/5.png" alt="Alfajor Tradicional Blanco" />
+      <img src="../img/Recursosrecetasimg/5.png" alt="Bombón" />
       <h3>BOMbon</h3>
       <p>Ingredientes Principales: Crema de maní, chocolate blanco, vaina de trigo y cobertura de chocolate.</p>
-      <a href="../Productos/BOMbon.html">Ver más</a>
+      <a href="../Productos/BOMbon.php">Ver más</a>
     </div>
 
     <div class="tarjeta">
-      <img src="../img/Recursosrecetasimg/6.png" alt="Bombón de Avellana" />
+      <img src="../img/Recursosrecetasimg/6.png" alt="Trufas Sabor Ron" />
       <h3>Trufas Sabor Ron</h3>
       <p>Ingredientes Principales: Manjar, esencia de ron, cobertura de chocolate y decoración de chocolate.</p>
-      <a href="../Productos/trufas.html">Ver más</a>
+      <a href="../Productos/trufas.php">Ver más</a>
     </div>
 
     <div class="tarjeta">
       <img src="../img/Recursosrecetasimg/7.png" alt="Alfajor Tradicional" />
       <h3>Alfajor Tradicional</h3>
       <p>Ingredientes Principales: Galletas alfajor origen argentino, Manjar y cobertura de chocolate.</p>
-      <a href="../Productos/alfajor.html">Ver más</a>
+      <a href="../Productos/alfajor.php">Ver más</a>
     </div>
 
     
     <div class="tarjeta">
-      <img src="../img/Recursosrecetasimg/alfablanco.png" alt="Alfajor" />
+      <img src="../img/Recursosrecetasimg/alfablanco.png" alt="Alfajor Blanco" />
       <h3>Alfajor Tradicional Blanco</h3>
       <p>Ingredientes Principales:Galletas alfajor origen argentino, Manjar y cobertura de chocolate blanco. </p>
-      <a href="../Productos/alfajortradiblanco.html">Ver más</a>
+      <a href="../Productos/alfajortradiblanco.php">Ver más</a>
     </div>
 
     <div class="tarjeta">
-      <img src="../img/Recursosrecetasimg/frambuesanegro.png" alt="Alfajor" />
+      <img src="../img/Recursosrecetasimg/frambuesanegro.png" alt="Alfajor Frambuesa" />
       <h3>Alfajor Frambuesa</h3>
       <p>Ingredientes Principales: Galletas alfajor origen argentino, Mermelada frambuesa y cobertura de chocolate.</p>
-      <a href="../Productos/alfajorfram.html">Ver más</a>
+      <a href="../Productos/alfajorfram.php">Ver más</a>
     </div>
 
     <div class="tarjeta">
-      <img src="../img/Recursosrecetasimg/frambuesabl.png" alt="Alfajor" />
+      <img src="../img/Recursosrecetasimg/frambuesabl.png" alt="Alfajor Frambuesa Blanco" />
       <h3>Alfajor Frambuesa Chocolate Blanco</h3>
       <p>Ingredientes Principales: Galletas alfajor origen argentino, Mermelada frambuesa y cobertura de chocolate blanco. </p>
-      <a href="../Productos/alfajorframblanco.html">Ver más</a>
+      <a href="../Productos/alfajorframblanco.php">Ver más</a>
     </div>
 
     <div class="tarjeta">
       <img src="../img/Recursosrecetasimg/8.png" alt="Bombón de Avellana" />
       <h3>Bombón de Avellana</h3>
       <p>Ingredientes Principales:</p>
-      <a href="../Productos/bombonavellana.html">Ver más</a>
+      <a href="../Productos/bombonavellana.php">Ver más</a>
     </div>
 
     <div class="tarjeta">
       <img src="../img/Recursosrecetasimg/cocada.png" alt="Cocadas" />
       <h3>Cocadas</h3>
       <p>Ingredientes Principales: Manjar y coco</p>
-      <a href="../Productos/cocadas.html">Ver más</a>
+      <a href="../Productos/cocadas.php">Ver más</a>
     </div>
 
     <div class="tarjeta">
       <img src="../img/13.png" alt="Mix Bombones" />
       <h3>Mix Bombones</h3>
       <p>Bombones Principales:Trufas ron,cocadas,Nuez choc y BOMBOM mani . </p>
-      <a href="../Productos/mixbombones.html">Ver más</a>
+      <a href="../Productos/mixbombones.php">Ver más</a>
     </div>
 
     <div class="tarjeta">
       <img src="../img/prestigio.png" alt="Prestigio Coco" />
       <h3>Prestigio Coco</h3>
       <p>Ingredientes Principales : Leche condensada,chocolate y coco.</p>
-      <a href="../Productos/prestigiococo.html">Ver más</a>
+      <a href="../Productos/prestigiococo.php">Ver más</a>
     </div>
 
     <div class="tarjeta">
       <img src="../img/14.png" alt="Mini Dubai" />
       <h3>Mini Barra de Dubai</h3>
       <p>Ingredientes Principales : Chocolate , Pistacho</p>
-      <a href="../Productos/dubai.html">Ver más</a>
+      <a href="../Productos/minidubai.php">Ver más</a>
     </div>
 
     <div class="tarjeta">
-      <img src="../img/15.png" alt="Dubai" />
+      <img src="../img/15.png" alt="Dubai " />
       <h3>Barra Dubai </h3>
       <p>Ingredientes Principales:Chocolate , Pistacho </p>
-      <a href="../Productos/minidubai.html">Ver más</a>
+      <a href="../Productos/dubai.php">Ver más</a>
     </div>
 
     <div class="tarjeta">
       <img src="../img/Recursosrecetasimg/9.png" alt="Nuez Choc sin azúcar" />
       <h3>Nuez Choc sin azúcar</h3>
       <p>Ingredientes Principales: Nueces, Manjar sin azúcar y cobertura de chocolate sin azúcar.</p>
-      <a href="../Productos/nuezchocsinazucar.html">Ver más</a>
+      <a href="../Productos/nuezchocSA.php">Ver más</a>
     </div>
 
     <div class="tarjeta">
       <img src="../img/Recursosrecetasimg/1.png" alt="Trufas sin azúcar" />
       <h3>Trufas Sin Azúcar</h3>
       <p>Ingredientes Principales: Manjar sin azúcar, chocolate sin azúcar y cacao.</p>
-      <a href="../Productos/trufasinazucar.html">Ver más</a>
+      <a href="../Productos/trufasSA.php">Ver más</a>
     </div>
 
   </div>
@@ -206,4 +206,5 @@ session_start();
   </script>
 
 </body>
+<?php include_once __DIR__ . '/footer.php'; ?>
 </html>
