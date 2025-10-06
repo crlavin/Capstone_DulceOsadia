@@ -1,3 +1,80 @@
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    color: white;
+    position: relative;
+    z-index:10 ;
+    background: #85b6aa;
+}
+ .nav-link{
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    transition: transform 0.3s ease-in-out;
+ }
+
+.nav-link li{
+    position: relative;
+}
+
+.nav-link li a{
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    transition: background-color 0.3s ease;
+    font-size: 18px;        /* más grandes */
+    font-weight: 600;       /* semi-negrita */
+    text-transform: uppercase; /* todo en mayúsculas */
+    letter-spacing: 1px;    /* más espacio entre letras */
+}
+.nav-link li a:hover{
+    background-color: #444;
+    border-radius: 4px;
+    color: #f5ae81;
+}   
+
+.logo img {
+  height: 50px;       /* ajusta el tamaño del logo */
+  width: auto;        /* mantiene proporción */
+  display: block;
+}
+.menu-toggle {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: white;
+}
+
+/* --- Responsivo --- */
+@media (max-width: 768px) {
+  .nav-link {
+    position: absolute;
+    top: 70px; /* debajo del navbar */
+    right: 0;
+    background: #85b6aa;
+    flex-direction: column;
+    width: 200px;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease;
+  }
+
+  .nav-link.show {
+    height: auto;
+    padding: 10px 0;
+  }
+
+  .nav-link li {
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
 body {
   background-color: #fed794;
   background-image: url('../img/Patrones_celestes/Recurso_105.png'); /* ajusta la ruta */
@@ -22,7 +99,7 @@ body {
 }
 
 .tarjeta {
-  background: #fff;
+  background: #c41f3d;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   overflow: hidden;
@@ -44,18 +121,18 @@ body {
 .tarjeta h3 {
   margin: 15px 0 10px;
   font-size: 1.2em;
-  color: #333;
+  color: #fed794;
 }
 
 .tarjeta p {
   font-size: 0.95em;
-  color: #666;
+  color: #fed794;
 }
 
 .tarjeta a {
   display: inline-block;
   margin-top: 10px;
-  color: #b85c38;
+  color: #fed794;
   text-decoration: none;
   font-weight: bold;
 }

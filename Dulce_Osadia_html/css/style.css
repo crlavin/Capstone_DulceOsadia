@@ -1,7 +1,5 @@
 
 
-
-
 .navbar{
     display: flex;
     justify-content: space-between;
@@ -13,13 +11,16 @@
     background: #85b6aa;
 }
 body {
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background: #fed794;
     background-image: url("../img/Patrones_celestes/Recurso_105.png");
     background-repeat: repeat;
     background-size: cover;
     background-position: center;
     
+}
+h1 {
+  text-align: center;
 }
  .logo{
     font-size: 24px;
