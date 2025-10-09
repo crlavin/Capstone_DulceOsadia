@@ -134,14 +134,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <label for="cantidad_producto">¿Cuántas unidades quieres producir?</label>
     <input type="number" id="cantidad_producto" name="cantidad_producto" min="1" required value="<?= htmlspecialchars($_POST['cantidad_producto'] ?? '') ?>">
 
-    <button type="submit">Simular disponibilidad</button>
-  </form>
-
+    <button type="submit">Planificar</button>
   <?php if ($mensaje_error): ?>
     <p style="color:red;"><?= $mensaje_error ?></p>
   <?php elseif ($resultado && $resultado->num_rows > 0): ?>
     <h2>Insumos necesarios para <?= htmlspecialchars($cantidad) ?> unidades de <?= str_replace("_", " ", $producto) ?></h2>
-    <table border="1">
+    <table <table border="1" style="margin: 20px auto; text-align: center;">
       <tr>
         <th>Insumo</th>
         <th>Cantidad total</th>
@@ -158,5 +156,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <?php endwhile; ?>
     </table>
   <?php endif; ?>
+  </form>
+
+
 </body>
 </html>

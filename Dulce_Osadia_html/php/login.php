@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           $success = 'Usuario logueado correctamente';
           // redirigir con pequeño delay para mostrar toast
           if ($_SESSION['rol'] === 'admin') {
-            echo "<script>window.onload = function(){ localStorage.setItem('toast', " . json_encode($success) . "); window.location.href='procesar.php'; }</script>";
+            echo "<script>window.onload = function(){ localStorage.setItem('toast', " . json_encode($success) . "); window.location.href='inicioadmin.php'; }</script>";
           } else {
             echo "<script>window.onload = function(){ localStorage.setItem('toast', " . json_encode($success) . "); window.location.href='index.php'; }</script>";
 }
