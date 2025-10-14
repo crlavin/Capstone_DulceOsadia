@@ -2,11 +2,10 @@
 session_start();
 
 if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
-  header('Location: ../index.php'); // o login.php si prefieres
-  exit();
+    header('Location: ../index.php');
+    exit();
 }
-?>
-<?php
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -14,34 +13,71 @@ $conexion = new mysqli("localhost", "root", "dulceosadia", "dulceosadia");
 $conexion->set_charset("utf8");
 
 if ($conexion->connect_error) {
-  die("Error de conexión: " . $conexion->connect_error);
+    die("Error de conexión: " . $conexion->connect_error);
 }
 
 $mensaje = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-  $id = $_POST["id_insumo"];
-  $cantidad = $_POST["cantidadActual"];
-  $precio = $_POST["precioUnitario"];
-  $fecha_ingreso = $_POST["fecha_ingreso"];
-  $fecha_vencimiento = $_POST["fecha_vencimiento"];
+    // --- PASO 1: Recoger datos y validar el ID ---
+    $id = $_POST["id_insumo"] ?? null;
+    if (!$id) {
+        $mensaje = "❌ Error: Debes seleccionar un insumo.";
+    } else {
+        // --- PASO 2: Construir la consulta dinámicamente ---
+        $campos_a_actualizar = [];
+        $parametros = [];
+        $tipos_de_datos = "";
 
-  $sql = "
-    UPDATE insumos
-    SET cantidadActual = ?, precioUnitario = ?, fecha_ingreso = ?, fecha_vencimiento = ?
-    WHERE id_insumo = ?
-  ";
+        // Campo obligatorio: Cantidad actual
+        $campos_a_actualizar[] = "cantidadActual = ?";
+        $parametros[] = $_POST["cantidadActual"];
+        $tipos_de_datos .= "d"; // 'd' para decimal/double
 
-  $stmt = $conexion->prepare($sql);
-  $stmt->bind_param("ddssi", $cantidad, $precio, $fecha_ingreso, $fecha_vencimiento, $id);
+        // Campo opcional: Precio unitario
+        if (!empty($_POST["precioUnitario"])) {
+            $campos_a_actualizar[] = "precioUnitario = ?";
+            $parametros[] = $_POST["precioUnitario"];
+            $tipos_de_datos .= "d";
+        }
 
-  if ($stmt->execute()) {
-    $mensaje = "✅ Insumo actualizado correctamente.";
-  } else {
-    $mensaje = "❌ Error al actualizar: " . $stmt->error;
-  }
+        // Campo opcional: Fecha de ingreso
+        if (!empty($_POST["fecha_ingreso"])) {
+            $campos_a_actualizar[] = "fecha_ingreso = ?";
+            $parametros[] = $_POST["fecha_ingreso"];
+            $tipos_de_datos .= "s"; // 's' para string (date)
+        }
 
-  $stmt->close();
+        // Campo opcional: Fecha de vencimiento
+        if (!empty($_POST["fecha_vencimiento"])) {
+            $campos_a_actualizar[] = "fecha_vencimiento = ?";
+            $parametros[] = $_POST["fecha_vencimiento"];
+            $tipos_de_datos .= "s";
+        }
+
+        // --- PASO 3: Ejecutar la consulta ---
+        if (!empty($campos_a_actualizar)) {
+            // Unir las partes de la consulta
+            $sql = "UPDATE insumos SET " . implode(", ", $campos_a_actualizar) . " WHERE id_insumo = ?";
+            
+            // Añadir el ID del insumo al final de los parámetros y su tipo
+            $parametros[] = $id;
+            $tipos_de_datos .= "i"; // 'i' para integer
+
+            $stmt = $conexion->prepare($sql);
+            // Vincular los parámetros dinámicamente
+            $stmt->bind_param($tipos_de_datos, ...$parametros);
+
+            if ($stmt->execute()) {
+                $mensaje = "✅ Insumo actualizado correctamente.";
+            } else {
+                $mensaje = "❌ Error al actualizar: " . $stmt->error;
+            }
+            $stmt->close();
+        } else {
+            $mensaje = "❌ No se proporcionaron datos para actualizar.";
+        }
+    }
 }
 ?>
 
@@ -125,8 +161,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <input type="number" step="0.01" name="cantidadActual" required>
 
     <label for="precioUnitario">Precio unitario por kilo($):</label>
-    <option value="">-- Solo si el precio ha cambiado (de lo contrario, dejar en blanco) --</option>
-    <input type="number" step="100" name="precioUnitario" required>
+    <input type="number" step="100" name="precioUnitario" placeholder="-- Solo si el precio ha cambiado --">
 
     <label for="fecha_ingreso">Fecha ingreso:</label>
     <input type="date" name="fecha_ingreso">

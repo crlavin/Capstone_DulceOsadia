@@ -61,3 +61,86 @@ button {
 button:hover {
   background-color: #a04a2f;
 }
+/* Estilos para los mensajes y botones */
+.mensaje-info {
+    color: green;
+    background-color: #e8f5e9;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.mensaje-error {
+    color: red;
+    background-color: #ffebee;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.boton-confirmar {
+    background-color: #4CAF50; /* Verde */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.boton-confirmar:hover {
+    background-color: #45a049;
+}
+
+.cancelar-container {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.boton-cancelar {
+    background-color: #f44336; /* Rojo */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.boton-cancelar:hover {
+    background-color: #da190b;
+}
+
+/* Estilos para el contenedor del reproductor de audio */
+.audio-player-container {
+    margin: 30px auto; /* Centra el contenedor y le da espacio arriba y abajo */
+    padding: 20px;
+    background-color: #f9f2e8; /* Un color crema suave */
+    border: 1px solid #e0d5c1; /* Un borde sutil */
+    border-radius: 8px;
+    text-align: center;
+    max-width: 600px; /* Ancho máximo para que no sea demasiado grande en pantallas anchas */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Una pequeña sombra para darle profundidad */
+}
+
+.audio-player-container h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #5d4037; /* Un color café oscuro para el título */
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+/* Estilo para el reproductor de audio nativo */
+.audio-player-container audio {
+    width: 100%; /* Hace que el reproductor ocupe todo el ancho del contenedor */
+    outline: none; /* Quita el borde azul que aparece al hacer clic en algunos navegadores */
+}
+
