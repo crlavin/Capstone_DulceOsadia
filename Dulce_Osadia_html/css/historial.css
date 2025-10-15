@@ -1,0 +1,77 @@
+/* Estilos generales para la página de historial */
+body {
+    background-color: #f4f7f6; /* Un fondo suave y neutro */
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+}
+
+/* Contenedor principal para centrar el contenido */
+.container {
+    max-width: 1200px;
+    margin: 40px auto; /* Centra el contenedor y le da espacio arriba/abajo */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+    text-align: center;
+    color: #b85c38; /* Color principal de tu marca */
+    margin-bottom: 10px;
+}
+
+.container p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* Estilo principal de la tabla de historial */
+.historial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95em;
+}
+
+/* Estilo para el encabezado de la tabla */
+.historial-table thead th {
+    background-color: #5d4037; /* Un color café oscuro elegante */
+    color: #ffffff;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+/* Estilo para las celdas de la tabla */
+.historial-table tbody td {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0; /* Línea sutil para separar filas */
+}
+
+/* Estilo para las filas pares, mejora la legibilidad */
+.historial-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Efecto al pasar el mouse sobre una fila */
+.historial-table tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+/* Estilo especial para las celdas de fecha para que se vean consistentes */
+.historial-table .fecha {
+    color: #555;
+    font-family: monospace; /* Le da un toque de "dato técnico" */
+    font-size: 0.9em;
+}
+
+/* Para que la primera y última celda del encabezado tengan bordes redondeados */
+.historial-table thead th:first-child {
+    border-top-left-radius: 8px;
+}
+
+.historial-table thead th:last-child {
+    border-top-right-radius: 8px;
+}

@@ -91,46 +91,44 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <body>
    <!-- NAVBAR -->
-  
   <nav class="navbar">
     <link rel="stylesheet" href="../css/style.css" />
     <div class="logo">
-      <a href="index.php">
-        <img src="../img/Perfil_instagram.png" alt="Dulce Osadía" class="logo-img" />
-      </a>
+        <a href="index.php">
+            <img src="../img/Perfil_instagram.png" alt="Dulce Osadía" class="logo-img" />
+        </a>
     </div>
 
     <div class="menu-toggle" id="menu-toggle">☰</div>
 
     <ul class="nav-link" id="nav-link">
-  <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
-  <li><a href="gestion_admin.php">Panel de Gestión</a></li>
-  <?php endif; ?>
-  <li><a href="index.php">Inicio</a></li>
-  <li><a href="../Productos/catalogo.php">Catálogo</a></li>
-  <li><a href="../html/nosotros.html">Sobre Nosotros</a></li>
-  <li><a href="../html/carrito.html">Carrito</a></li>
+        <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
+            <li><a href="inicioadmin.php">Panel de Gestión</a></li>
+        <?php endif; ?>
+        
+        <li><a href="index.php">Inicio</a></li>
+        <li><a href="../Productos/catalogo.php">Catálogo</a></li>
+        <li><a href="../html/nosotros.html">Sobre Nosotros</a></li>
+        <li><a href="../html/carrito.html">Carrito</a></li>
 
-  <?php if (isset($_SESSION['usuario'])): ?>
-    <!-- Usuario autenticado -->
-    <li><a href="../html/perfil.html">Perfil (<?php echo htmlspecialchars($_SESSION['nombre']); ?>)</a></li>
-    <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
-      <li><a href="procesar.php">Crear Receta</a></li>
-      <li><a href="editarinsumo.php">Editar Insumos</a></li>
-    <?php endif; ?>
-    <li><a href="logout.php">Cerrar sesión</a></li>
-    <?php else: ?>
-    <!-- Usuario no autenticado -->
-    <li><a href="login.php">Iniciar sesión</a></li>
-    <li><a href="registro.php">Regístrate</a></li>
-  <?php endif; ?>
-</ul>
-
+        <?php if (isset($_SESSION['usuario'])): ?>
+            <li><a href="../html/perfil.html">Perfil (<?php echo htmlspecialchars($_SESSION['nombre']); ?>)</a></li>
+            
+            <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
+                <li><a href="procesar.php">Crear Receta</a></li>
+                <li><a href="editarinsumo.php">Editar Insumos</a></li>
+                <li><a href="historial.php">Historial de insumos</a></li>
+            <?php endif; ?>
+            
+            <li><a href="logout.php">Cerrar sesión</a></li>
+        <?php else: ?>
+            <li><a href="login.php">Iniciar sesión</a></li>
+            <li><a href="registro.php">Regístrate</a></li>
+        <?php endif; ?>
+    </ul>
 
     <marquee behavior="scroll" direction="left">Bienvenidos a la página oficial de Dulce Osadía!</marquee>
-
-    <script src="../js/index.js"></script>
-  </nav>
+</nav>
 
   <form method="POST" action="editarinsumo.php">
     <h2>Actualizar insumo</h2>

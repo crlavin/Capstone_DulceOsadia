@@ -28,12 +28,13 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
     <div class="menu-toggle" id="menu-toggle">☰</div>
 
     <ul class="nav-link" id="nav-link">
-      <li><a href="gestion_admin.php">Panel de Gestión</a></li>
+      <li><a href="inicioadmin.php">Panel de Gestión</a></li>
       <li><a href="index.php">Inicio</a></li>
       <li><a href="../Productos/catalogo.php">Catálogo</a></li>
       <li><a href="../html/nosotros.html">Sobre Nosotros</a></li>
       <li><a href="../html/carrito.html">Carrito</a></li>
       <li><a href="../html/perfil.html">Perfil (<?php echo htmlspecialchars($_SESSION['nombre']); ?>)</a></li>
+      <li><a href="historial.php">Historial de Insumos</a></li>
       <li><a href="logout.php">Cerrar sesión</a></li>
     <marquee behavior="scroll" direction="left">Bienvenidos a la página oficial de Dulce Osadía!</marquee>
     

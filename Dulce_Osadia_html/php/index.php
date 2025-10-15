@@ -33,7 +33,7 @@ session_start();
 
     <ul class="nav-link" id="nav-link">
   <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
-  <li><a href="gestion_admin.php">Panel de Gestión</a></li>
+  <li><a href="inicioadmin.php">Panel de Gestión</a></li>
   <?php endif; ?>
   <li><a href="../php/index.php">Inicio</a></li>
   <li><a href="../Productos/catalogo.php">Catálogo</a></li>
@@ -46,6 +46,7 @@ session_start();
     <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
       <li><a href="procesar.php">Crear Receta</a></li>
       <li><a href="editarinsumo.php">Editar Insumos</a></li>
+      <li><a href="historial.php">Historial de Insumos</a></li>
     <?php endif; ?>
     <li><a href="logout.php">Cerrar sesión</a></li>
   <?php else: ?>
