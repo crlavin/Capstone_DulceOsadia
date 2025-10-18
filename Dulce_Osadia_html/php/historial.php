@@ -20,7 +20,7 @@ if ($conexion->connect_error) {
 
 // Consulta para obtener los insumos ordenados por la última actualización (los más recientes primero)
 // LIMIT 50 para no sobrecargar la página si tienes muchos insumos. Puedes ajustar este número.
-$sql = "SELECT nombre, cantidadActual, precioUnitario, fecha_vencimiento, ultima_actualizacion 
+$sql = "SELECT nombre, cantidadActual, precio_presentacion_compra, fecha_vencimiento, ultima_actualizacion 
         FROM insumos 
         WHERE ultima_actualizacion IS NOT NULL
         ORDER BY ultima_actualizacion DESC 
@@ -93,7 +93,7 @@ $resultado = $conexion->query($sql);
                                 ?>
                             </td>
                             <td><?php echo number_format($fila['cantidadActual'], 2, ',', '.'); ?></td>
-                            <td>$<?php echo number_format($fila['precioUnitario'], 0, ',', '.'); ?></td>
+                            <td>$<?php echo number_format($fila['precio_presentacion_compra'], 0, ',', '.'); ?></td>
                             <td class="fecha">
                                 <?php 
                                     if (!empty($fila['fecha_vencimiento'])) {

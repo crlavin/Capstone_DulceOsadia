@@ -1,5 +1,7 @@
 <?php
+
 session_start();
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -13,13 +15,11 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
 $conexion = new mysqli("localhost", "root", "dulceosadia", "dulceosadia");
 $conexion->set_charset('utf8mb4');
 
-// --- FUNCIÓN DE FORMATO DE NÚMERO (Explicada abajo) ---
+// --- FUNCIÓN DE FORMATO DE NÚMERO ---
 function smart_number_format($number) {
-    // Si el número es 'casi' un entero (la parte decimal es 0), se muestra sin decimales.
     if (round($number, 2) == round($number, 0)) {
         return number_format($number, 0, ',', '.');
     }
-    // Si tiene decimales significativos, se muestra con dos decimales.
     return number_format($number, 2, ',', '.');
 }
 
@@ -29,13 +29,19 @@ unset($_SESSION['mensaje_info']);
 
 $resultado_plan = null;
 $mensaje_error = null;
-$stock_suficiente = true; 
-$audio_a_reproducir = null; 
+$stock_suficiente = true;
+$audio_a_reproducir = null;
 $datos_presentacion = null;
 $costo_produccion_total = 0;
 $ingreso_total = 0;
 $ganancia_estimada = 0;
 $total_unidades_a_producir = 0;
+
+// Variables para el nuevo resumen financiero
+$costo_por_paquete = 0;
+$ganancia_por_paquete = 0;
+$margen_por_paquete = 0;
+
 
 // --- LÓGICA DE ACCIONES ---
 
@@ -74,12 +80,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
                 SELECT 
                     i.id_insumo, i.nombre AS insumo, dr.cantidad_usada * ? AS cantidad_necesaria,
                     i.cantidadActual AS cantidad_disponible, dr.unidad,
-                    (dr.cantidad_usada * ? * i.precioUnitario) AS costo_total_insumo
+                    -- ¡CORRECCIÓN! Usamos la nueva columna precio_por_gramos
+                    (dr.cantidad_usada * ? * i.precio_por_gramos) AS costo_total_insumo
                 FROM detalleReceta dr
                 JOIN insumos i ON dr.id_insumo = i.id_insumo
                 WHERE dr.id_receta = ?
             ";
             $stmt_insumos = $conexion->prepare($sql_insumos);
+            // Usamos $total_unidades_a_producir para ambos cálculos
             $stmt_insumos->bind_param("ddi", $total_unidades_a_producir, $total_unidades_a_producir, $id_receta);
             $stmt_insumos->execute();
             $resultado_plan = $stmt_insumos->get_result();
@@ -88,23 +96,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
 
             // Este bucle es para calcular totales y verificar stock
             if ($resultado_plan->num_rows > 0) {
-                 while ($fila = $resultado_plan->fetch_assoc()) {
-                     $_SESSION['planificacion_actual']['insumos'][] = $fila;
-                     $costo_produccion_total += $fila['costo_total_insumo'];
-                     if ($fila['cantidad_disponible'] < $fila['cantidad_necesaria']) {
-                         $stock_suficiente = false;
-                     }
-                 }
+                while ($fila = $resultado_plan->fetch_assoc()) {
+                    $_SESSION['planificacion_actual']['insumos'][] = $fila;
+                    // Sumamos el costo de cada insumo al total de producción
+                    $costo_produccion_total += $fila['costo_total_insumo'] ?? 0; // Usar ?? 0 para evitar errores
+                    if ($fila['cantidad_disponible'] < $fila['cantidad_necesaria']) {
+                        $stock_suficiente = false;
+                    }
+                }
             } else {
-                 $mensaje_error = "Este producto no tiene una receta asociada o la receta está vacía.";
-                 $resultado_plan = null;
+                $mensaje_error = "Este producto no tiene una receta asociada o la receta está vacía.";
+                $resultado_plan = null;
             }
 
-            // 3. CALCULAR FINANZAS
+            // 3. CALCULAR FINANZAS (SECCIÓN MEJORADA)
             if ($datos_presentacion['precio_venta'] > 0) {
                 $ingreso_total = $cantidad_paquetes * $datos_presentacion['precio_venta'];
                 $ganancia_estimada = $ingreso_total - $costo_produccion_total;
+
+                // Calcular métricas por paquete individual
+                if ($cantidad_paquetes > 0) {
+                    $costo_por_paquete = $costo_produccion_total / $cantidad_paquetes;
+                }
+                $ganancia_por_paquete = $datos_presentacion['precio_venta'] - $costo_por_paquete;
+                
+                if ($datos_presentacion['precio_venta'] > 0) {
+                    $margen_por_paquete = ($ganancia_por_paquete / $datos_presentacion['precio_venta']) * 100;
+                }
+
+            } else {
+                 if($costo_produccion_total > 0) {
+                    $mensaje_error = "El costo de producción es de $" . smart_number_format($costo_produccion_total) . " pero el producto no tiene precio de venta asignado. No se puede calcular la ganancia.";
+                 }
             }
+
 
         } else {
             $mensaje_error = "La presentación seleccionada no es válida o no tiene receta asignada.";
@@ -113,6 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
         $mensaje_error = "Por favor, selecciona un producto y una cantidad de paquetes válida.";
     }
 }
+
 
 // ACCIÓN 2: CONFIRMAR Y RESERVAR INSUMOS (Transacción SQL para restar stock)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'confirmar') {
@@ -169,6 +195,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
     <title>Planificador de Producción</title>
     <link rel="stylesheet" href="../css/estilosopcion2.css">
     <link rel="stylesheet" href="../css/style.css" />
+    <style>
+        .financial-summary {
+            background-color: #f0f8ff;
+            border-left: 5px solid #4682B4;
+            padding: 15px;
+            margin-top: 25px;
+            border-radius: 5px;
+        }
+        .financial-summary h2 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .financial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .financial-card {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .financial-card .label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            display: block;
+        }
+        .financial-card .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 5px;
+            display: block;
+        }
+        .value.positive { color: #27ae60; }
+        .value.negative { color: #c0392b; }
+        .value.neutral { color: #34495e; }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -233,9 +299,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
             <div class="results-container">
                 
                 <h3>Insumos Requeridos</h3>
+                <p>Para producir <strong><?= htmlspecialchars($_POST['cantidad_paquetes'] ?? 0) ?></strong> paquetes de <strong><?= htmlspecialchars($datos_presentacion['nombre_presentacion']) ?></strong> (Total: <strong><?= smart_number_format($total_unidades_a_producir) ?></strong> unidades).</p>
+
                 <div class="insumos-grid">
                     <?php 
-                    // Reiniciamos el puntero para volver a recorrer los resultados
                     $resultado_plan->data_seek(0); 
                     while ($fila = $resultado_plan->fetch_assoc()): 
                         $restante = $fila['cantidad_disponible'] - $fila['cantidad_necesaria'];
@@ -259,31 +326,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
                     <?php endwhile; ?>
                 </div>
 
-                <div class="summary-container" style="margin-top: 25px;">
-                    <h2>Unidades generadas</h2>
-                    <p style="font-size: 2rem; text-align: center; margin: 10px 0; font-weight: bold; color: #4682B4;">
-                        <?= number_format($total_unidades_a_producir, 0, ',', '.') ?>
-                    </p>
-                </div>
+                <!-- NUEVO RESUMEN FINANCIERO -->
+                <?php if ($datos_presentacion['precio_venta'] > 0 || $costo_produccion_total > 0): ?>
+                <div class="financial-summary">
+                    <h2>Resumen Financiero</h2>
+                    <div class="financial-grid">
+                        <!-- Métricas por Paquete -->
+                        <div class="financial-card">
+                            <span class="label">Costo por Paquete</span>
+                            <span class="value neutral">$<?= smart_number_format($costo_por_paquete) ?></span>
+                        </div>
+                         <div class="financial-card">
+                            <span class="label">Precio Venta Paquete</span>
+                            <span class="value positive">$<?= smart_number_format($datos_presentacion['precio_venta']) ?></span>
+                        </div>
+                        <div class="financial-card">
+                            <span class="label">Ganancia por Paquete</span>
+                            <span class="value <?= $ganancia_por_paquete >= 0 ? 'positive' : 'negative' ?>">$<?= smart_number_format($ganancia_por_paquete) ?></span>
+                        </div>
+                        <div class="financial-card">
+                            <span class="label">Margen por Paquete</span>
+                            <span class="value <?= $margen_por_paquete >= 0 ? 'positive' : 'negative' ?>"><?= smart_number_format($margen_por_paquete) ?>%</span>
+                        </div>
 
-                <div class="summary-container" style="margin-top: 25px;">
-                    <?php if ($ingreso_total > 0): ?>
-                        <h2>Dinero recolectado</h2>
-                        <p style="font-size: 2rem; text-align: center; margin: 10px 0; font-weight: bold; color: #2E8B57;">
-                            $<?= number_format($ingreso_total, 0, ',', '.') ?>
-                        </p>
-                    <?php else: ?>
-                        <h2>Resumen Financiero</h2>
-                        <p>(El ingreso no se puede calcular porque el precio de venta del producto no está definido)</p>
-                    <?php endif; ?>
+                        <!-- Métricas Totales -->
+                        <div class="financial-card">
+                            <span class="label">Costo Producción Total</span>
+                            <span class="value neutral">$<?= smart_number_format($costo_produccion_total) ?></span>
+                        </div>
+                        <div class="financial-card">
+                            <span class="label">Ingreso Total Estimado</span>
+                            <span class="value positive">$<?= smart_number_format($ingreso_total) ?></span>
+                        </div>
+                        <div class="financial-card">
+                            <span class="label">Ganancia Total Estimada</span>
+                            <span class="value <?= $ganancia_estimada >= 0 ? 'positive' : 'negative' ?>">$<?= smart_number_format($ganancia_estimada) ?></span>
+                        </div>
+                    </div>
                 </div>
+                <?php endif; ?>
+
 
                 <?php if ($stock_suficiente): ?>
                     <form method="POST" action="" style="text-align: center; margin-top: 20px;">
                         <button type="submit" name="accion" value="confirmar" class="boton-confirmar">Confirmar y Reservar Stock</button>
                     </form>
                 <?php else: ?>
-                    <p class="mensaje-error">No hay stock suficiente para realizar esta producción.</p>
+                    <p class="mensaje-error" style="text-align: center; margin-top: 20px;">No hay stock suficiente para realizar esta producción.</p>
                 <?php endif; ?>
 
                 <?php if ($audio_a_reproducir): ?>
@@ -294,15 +383,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
                         </audio>
                     </div>
                 <?php endif; ?>
-
-                <?php if (isset($_SESSION['ultima_reserva'])): ?>
-                    <div class="cancelar-container">
-                        <p>¿Te equivocaste? Puedes cancelar la última reserva realizada.</p>
-                        <form method="POST" action=""><button type="submit" name="accion" value="cancelar" class="boton-cancelar">Cancelar Última Reserva</button></form>
-                    </div>
-                <?php endif; ?>
             </div>
         <?php endif; ?>
+
+        <?php if (isset($_SESSION['ultima_reserva'])): ?>
+            <div class="cancelar-container">
+                <p>¿Te equivocaste? Puedes cancelar la última reserva realizada.</p>
+                <form method="POST" action=""><button type="submit" name="accion" value="cancelar" class="boton-cancelar">Cancelar Última Reserva</button></form>
+            </div>
+        <?php endif; ?>
+
     </div>
 </body>
 </html>
+

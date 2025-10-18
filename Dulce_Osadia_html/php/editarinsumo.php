@@ -8,9 +8,10 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 $conexion = new mysqli("localhost", "root", "dulceosadia", "dulceosadia");
-$conexion->set_charset("utf8");
+$conexion->set_charset("utf8mb4");
 
 if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
@@ -19,36 +20,57 @@ if ($conexion->connect_error) {
 $mensaje = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // --- PASO 1: Recoger datos y validar el ID ---
-    $id = $_POST["id_insumo"] ?? null;
-    if (!$id) {
+    // --- PASO 1: Recoger y validar datos ---
+    $id_insumo = $_POST["id_insumo"] ?? null;
+    $cantidad_actual = $_POST["cantidadActual"] ?? ''; 
+
+    if (!$id_insumo) {
         $mensaje = "❌ Error: Debes seleccionar un insumo.";
+    } else if ($cantidad_actual === '' || !is_numeric($cantidad_actual)) {
+        $mensaje = "❌ Error: El campo 'Cantidad actual' es obligatorio y debe ser un número.";
     } else {
         // --- PASO 2: Construir la consulta dinámicamente ---
         $campos_a_actualizar = [];
         $parametros = [];
         $tipos_de_datos = "";
 
-        // Campo obligatorio: Cantidad actual
         $campos_a_actualizar[] = "cantidadActual = ?";
-        $parametros[] = $_POST["cantidadActual"];
-        $tipos_de_datos .= "d"; // 'd' para decimal/double
+        $parametros[] = $cantidad_actual;
+        $tipos_de_datos .= "d";
 
-        // Campo opcional: Precio unitario
-        if (!empty($_POST["precioUnitario"])) {
-            $campos_a_actualizar[] = "precioUnitario = ?";
-            $parametros[] = $_POST["precioUnitario"];
+        if (!empty($_POST["precio_presentacion_compra"]) && is_numeric($_POST["precio_presentacion_compra"])) {
+            $nuevo_precio_compra = $_POST["precio_presentacion_compra"];
+            
+            $campos_a_actualizar[] = "precio_presentacion_compra = ?";
+            $parametros[] = $nuevo_precio_compra;
             $tipos_de_datos .= "d";
+
+            $stmt_unidad = $conexion->prepare("SELECT unidad_med FROM insumos WHERE id_insumo = ?");
+            $stmt_unidad->bind_param("i", $id_insumo);
+            $stmt_unidad->execute();
+            $resultado_unidad = $stmt_unidad->get_result()->fetch_assoc();
+            $stmt_unidad->close();
+            
+            if ($resultado_unidad) {
+                $unidad_med = $resultado_unidad['unidad_med'];
+                $precio_calculado = $nuevo_precio_compra; 
+
+                if (in_array($unidad_med, ['gramos', 'ml'])) {
+                    $precio_calculado = $nuevo_precio_compra / 1000.0;
+                }
+
+                $campos_a_actualizar[] = "precio_por_gramos = ?"; // <-- CAMBIO AQUI
+                $parametros[] = $precio_calculado;
+                $tipos_de_datos .= "d";
+            }
         }
 
-        // Campo opcional: Fecha de ingreso
         if (!empty($_POST["fecha_ingreso"])) {
             $campos_a_actualizar[] = "fecha_ingreso = ?";
             $parametros[] = $_POST["fecha_ingreso"];
-            $tipos_de_datos .= "s"; // 's' para string (date)
+            $tipos_de_datos .= "s";
         }
 
-        // Campo opcional: Fecha de vencimiento
         if (!empty($_POST["fecha_vencimiento"])) {
             $campos_a_actualizar[] = "fecha_vencimiento = ?";
             $parametros[] = $_POST["fecha_vencimiento"];
@@ -56,27 +78,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         // --- PASO 3: Ejecutar la consulta ---
-        if (!empty($campos_a_actualizar)) {
-            // Unir las partes de la consulta
-            $sql = "UPDATE insumos SET " . implode(", ", $campos_a_actualizar) . " WHERE id_insumo = ?";
-            
-            // Añadir el ID del insumo al final de los parámetros y su tipo
-            $parametros[] = $id;
-            $tipos_de_datos .= "i"; // 'i' para integer
+        $sql = "UPDATE insumos SET " . implode(", ", $campos_a_actualizar) . " WHERE id_insumo = ?";
+        
+        $parametros[] = $id_insumo;
+        $tipos_de_datos .= "i"; 
 
-            $stmt = $conexion->prepare($sql);
-            // Vincular los parámetros dinámicamente
-            $stmt->bind_param($tipos_de_datos, ...$parametros);
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param($tipos_de_datos, ...$parametros);
 
-            if ($stmt->execute()) {
-                $mensaje = "✅ Insumo actualizado correctamente.";
-            } else {
-                $mensaje = "❌ Error al actualizar: " . $stmt->error;
-            }
-            $stmt->close();
+        if ($stmt->execute()) {
+            $mensaje = "✅ Insumo actualizado correctamente.";
         } else {
-            $mensaje = "❌ No se proporcionaron datos para actualizar.";
+            $mensaje = "❌ Error al actualizar: " . $stmt->error;
         }
+        $stmt->close();
     }
 }
 ?>
@@ -87,12 +102,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <meta charset="UTF-8">
   <title>Actualizar Insumo</title>
   <link rel="stylesheet" href="../css/editarinsumo.css">
+  <link rel="stylesheet" href="../css/style.css" />
 </head>
-
 <body>
-   <!-- NAVBAR -->
+    <!-- NAVBAR -->
   <nav class="navbar">
-    <link rel="stylesheet" href="../css/style.css" />
     <div class="logo">
         <a href="index.php">
             <img src="../img/Perfil_instagram.png" alt="Dulce Osadía" class="logo-img" />
@@ -129,37 +143,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <marquee behavior="scroll" direction="left">Bienvenidos a la página oficial de Dulce Osadía!</marquee>
 </nav>
+<script src="../js/index.js"></script>
 
   <form method="POST" action="editarinsumo.php">
     <h2>Actualizar insumo</h2>
 
     <label for="id_insumo">Selecciona insumo:</label>
     <select name="id_insumo" required>
-      <option value="">-- Selecciona insumo --</option>
-      <option value="1">Chocolate blanco Caravella</option>
-      <option value="2">Chocolate negro Costa</option>
-      <option value="3">Chocolate amargo sin azúcar Neucober</option>
-      <option value="4">Maní sin sal</option>
-      <option value="5">Crema de avellanas Halta</option>
-      <option value="6">Nueces</option>
-      <option value="7">Manjar Colun</option>
-      <option value="8">Manjar sin azúcar Langer</option>
-      <option value="9">Vaina de trigo Conebric</option>
-      <option value="10">Galletas Fruna</option>
-      <option value="11">Galletas Alfajor del Valle</option>
-      <option value="12">Mermelada de frambuesa Langer</option>
-      <option value="13">Coco rallado</option>
-      <option value="14">Ron (esencia)</option>
-      <option value="15">Leche condensada</option>
-      <option value="16">Pistacho</option>
-      <option value="17">Naranja(esencia)</option>
+        <option value="">-- Selecciona un insumo --</option>
+        <?php
+            $query_insumos = "SELECT id_insumo, nombre FROM insumos ORDER BY nombre ASC";
+            $result_insumos = $conexion->query($query_insumos);
+            while($insumo = $result_insumos->fetch_assoc()) {
+                echo "<option value='{$insumo['id_insumo']}'>" . htmlspecialchars($insumo['nombre']) . "</option>";
+            }
+        ?>
     </select>
 
-    <label for="cantidadActual">Cantidad actual (g):</label>
-    <input type="number" step="0.01" name="cantidadActual" required>
+    <label for="cantidadActual">Cantidad actual (en gramos, ml o unidades):</label>
+    <input type="number" step="0.01" name="cantidadActual" placeholder="Ej: 1500.50" required>
 
-    <label for="precioUnitario">Precio unitario por kilo($):</label>
-    <input type="number" step="100" name="precioUnitario" placeholder="-- Solo si el precio ha cambiado --">
+    <label for="precio_presentacion_compra">Precio de Compra (por Kilo/Litro/Paquete $):</label>
+    <input type="number" step="0.01" name="precio_presentacion_compra" placeholder="-- Opcional: solo si el precio cambió --">
 
     <label for="fecha_ingreso">Fecha ingreso:</label>
     <input type="date" name="fecha_ingreso">
@@ -175,3 +180,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <?php endif; ?>
 </body>
 </html>
+
