@@ -1,0 +1,350 @@
+body {
+    background-color: #fed794;
+    background-image: url('../img/Patrones_celestes/Recurso 105.png'); /* Asegúrate que la ruta es correcta */
+    background-repeat: repeat;
+    background-size: contain;
+    background-position: center;
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* ============================================== */
+/* ==== DISEÑO DE DOS COLUMNAS ==== */
+/* ============================================== */
+
+/* Contenedor principal que alinea las dos cartas */
+.layout-container {
+    display: flex;
+    justify-content: center; /* Centra las cartas en la página */
+    align-items: flex-start; /* Alinea las cartas en la parte superior */
+    gap: 30px; /* Espacio entre las dos cartas */
+    padding: 40px 20px;
+    flex-wrap: wrap; /* Permite que las cartas se pongan una debajo de la otra en pantallas pequeñas */
+}
+
+/* ============================================== */
+/* ==== CARTA DE FORMULARIO (IZQUIERDA) ==== */
+/* ============================================== */
+
+.form-container {
+    flex: 1;
+    min-width: 380px;
+    max-width: 450px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.form-container h2 {
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    color: #b85c38;
+}
+
+.form-container label {
+    display: block;
+    margin: 15px 0 5px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.form-container input[type="number"],
+.form-container select {
+    width: 100%; /* Ocupa el 100% del contenedor */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    margin-bottom: 15px;
+}
+
+.form-container button {
+    background-color: #b85c38;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.form-container button:hover {
+    background-color: #a04a2f;
+}
+
+/* ============================================== */
+/* ==== CARTA DE RESULTADOS (DERECHA) ==== */
+/* ============================================== */
+
+.results-container {
+    flex: 2;
+    min-width: 400px;
+    max-width: 700px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.results-container h3 {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    color: #b85c38;
+}
+
+/* Estilos para la tabla de resultados */
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.results-table th,
+.results-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.results-table thead th {
+    background-color: #f9f2e8;
+    font-weight: bold;
+    color: #5d4037;
+}
+
+.results-table tbody tr:hover {
+    background-color: #fdfaf6;
+}
+
+/* Clase para resaltar el texto en rojo si no hay stock */
+.stock-insuficiente td {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+/* ============================================== */
+/* ==== COMPONENTES ADICIONALES ==== */
+/* ============================================== */
+
+/* Mensajes de información y error */
+.mensaje-info, .mensaje-error {
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    margin: 20px 0;
+}
+.mensaje-info {
+    color: green;
+    background-color: #e8f5e9;
+}
+.mensaje-error {
+    color: red;
+    background-color: #ffebee;
+}
+
+/* Botón de Confirmar */
+.boton-confirmar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+.boton-confirmar:hover {
+    background-color: #45a049;
+}
+
+/* Contenedor y Botón de Cancelar */
+.cancelar-container {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+.boton-cancelar {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+.boton-cancelar:hover {
+    background-color: #da190b;
+}
+
+/* Reproductor de Audio */
+.audio-player-container {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f2e8;
+    border: 1px solid #e0d5c1;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+.audio-player-container h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #5d4037;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+.audio-player-container audio {
+    width: 100%;
+    outline: none;
+}
+
+/* Resumen de Producción */
+.summary-container {
+    background-color: #fdfaf6;
+    border: 1px solid #f2e8de;
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    text-align: left;
+}
+.summary-container h3 {
+    text-align: center;
+}
+.summary-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.summary-container li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #f2e8de;
+}
+.summary-container li:last-child {
+    border-bottom: none;
+}
+.summary-container hr {
+    border: none;
+    border-top: 1px dashed #d7ccc8;
+    margin: 10px 0;
+}
+.summary-container li.ganancia {
+    color: #2e7d32;
+    font-weight: bold;
+}
+.summary-container li.perdida {
+    color: #c62828;
+    font-weight: bold;
+}
+/* ============================================== */
+/* ==== NUEVA CUADRÍCULA PARA INSUMOS ==== */
+/* ============================================== */
+
+/* Contenedor principal de la cuadrícula */
+.insumos-grid {
+    display: grid;
+    /* Crea columnas automáticas: cada una tendrá un mínimo de 220px 
+       y crecerán para ocupar el espacio disponible. Se ajustan solas. */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px; /* Espacio entre las tarjetas */
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Estilo de cada tarjeta individual */
+.insumo-card {
+    background-color: #fdfaf6;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #f2e8de;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre los elementos internos */
+}
+
+/* Nombre del insumo (el título de la tarjeta) */
+.insumo-card h4 {
+    margin: 0 0 10px 0;
+    padding-bottom: 10px;
+    color: #b85c38;
+    font-size: 1.2em;
+    border-bottom: 1px solid #e0d5c1;
+}
+
+/* Contenedor para cada línea de detalle (Ej: "En Bodega: 500gr") */
+.insumo-detalle {
+    display: flex;
+    justify-content: space-between; /* Pone el texto a la izquierda y el valor a la derecha */
+    align-items: center;
+    font-size: 0.95em;
+}
+
+/* Estilo para el texto de la etiqueta (Ej: "En Bodega:") */
+.insumo-detalle .label {
+    color: #5d4037;
+}
+
+/* Estilo para el valor numérico */
+.insumo-detalle .value {
+    font-weight: bold;
+    color: #333;
+}
+
+/* --- ESTILOS PARA STOCK INSUFICIENTE --- */
+
+/* Borde rojo en la tarjeta si no hay stock */
+.insumo-card.stock-insuficiente {
+    border: 2px solid #e57373;
+    background-color: #ffebee;
+}
+
+/* El valor del "Stock Restante" se pone en rojo y más grande */
+.insumo-card.stock-insuficiente .stock-restante .value {
+    color: #d32f2f;
+    font-size: 1.1em;
+}
+/* ============================================== */
+/* ==== ESTILOS RESPONSIVE PARA MÓVILES ==== */
+/* ============================================== */
+
+/* Estas reglas se aplican solo si el ancho de la pantalla es de 900px o menos */
+@media (max-width: 900px) {
+
+    /* 1. Hacemos que el contenedor principal apile las tarjetas verticalmente */
+    .layout-container {
+        flex-direction: column; /* Cambia de fila a columna */
+        align-items: center;   /* Centra las tarjetas */
+        gap: 25px;             /* Ajusta el espacio entre ellas */
+        padding: 20px 15px;    /* Reduce el espacio en los bordes */
+    }
+
+    /* 2. Hacemos que ambas tarjetas ocupen casi todo el ancho disponible */
+    .form-container,
+    .results-container {
+        width: 95%;        /* Ocupan el 95% del ancho de la pantalla */
+        min-width: 0;      /* IMPORTANTE: Anula el ancho mínimo para que puedan encogerse */
+        max-width: 500px;  /* Evita que se estiren demasiado en tablets */
+        flex: none;        /* Resetea la propiedad flex para que el ancho funcione correctamente */
+    }
+
+    /* 3. Ajustamos tamaños de texto para que no se vean tan grandes */
+    .form-container h2 {
+        font-size: 1.6em;
+    }
+    
+    .results-container h3 {
+        font-size: 1.4em;
+    }
+}

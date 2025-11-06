@@ -1,0 +1,84 @@
+.container {
+    max-width: 900px;
+    margin: auto;
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+  }
+  
+  /* Definición de columnas */
+  .col-01 { width: 8.333333333333333%; }
+  .col-02 { width: 16.66666666666667%; }
+  .col-03 { width: 25%; }
+  .col-04 { width: 33.33333333333333%; }
+  .col-05 { width: 41.66666666666667%; }
+  .col-06 { width: 50%; }
+  .col-07 { width: 58.33333333333333%; }
+  .col-08 { width: 66.66666666666667%; }
+  .col-09 { width: 75%; }
+  .col-10 { width: 83.33333333333333%; }
+  .col-11 { width: 91.66666666666667%; }
+  .col-12 { width: 100%; }
+  
+  /* Estilos comunes para las columnas */
+  .col-01,
+  .col-02,
+  .col-03,
+  .col-04,
+  .col-05,
+  .col-06,
+  .col-07,
+  .col-08,
+  .col-09,
+  .col-10,
+  .col-11,
+  .col-12 {
+    padding: 10px;
+  }
+  
+  /* Estilos específicos para ciertas columnas */
+  .col-04 p,
+  .col-08 p {
+    padding: 0; 
+    line-height: 20px;
+  }
+  
+  .col-04 h3,
+  .col-08 h3 {
+    color: black;
+    font-weight: bold;
+  }
+  
+  .col-09 {
+    text-align: center;
+    line-height: 20px; 
+    padding-left: 0; 
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 900px) {
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  
+   
+    .col-01,
+    .col-02,
+    .col-03,
+    .col-04,
+    .col-05,
+    .col-06,
+    .col-07,
+    .col-08,
+    .col-09,
+    .col-10,
+    .col-11,
+    .col-12 {
+      width: 100%;
+    }
+  }
+  

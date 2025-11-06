@@ -1,0 +1,94 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: #fed794;
+  background-image: url("../img/Patrones_celestes/Recurso_105.png");
+  background-repeat: repeat;
+  background-size: cover;
+  background-position: center;
+
+}
+
+/* --- Responsivo --- */
+@media (max-width: 768px) {
+  .nav-link {
+    position: absolute;
+    top: 70px;
+    /* debajo del navbar */
+    right: 0;
+    background: #85b6aa;
+    flex-direction: column;
+    width: 200px;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease;
+  }
+
+  .nav-link.show {
+    height: auto;
+    padding: 10px 0;
+  }
+
+  .nav-link li {
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
+
+.tarjetas-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 40px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.tarjeta {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.3s ease;
+}
+
+.tarjeta:hover {
+  transform: scale(1.03);
+}
+
+.tarjeta img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.tarjeta h3 {
+  margin: 15px 0 10px;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.tarjeta p {
+  font-size: 0.95em;
+  color: #666;
+}
+
+.tarjeta a {
+  display: inline-block;
+  margin-top: 10px;
+  color: #b85c38;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.w3-content {
+  margin: auto;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
