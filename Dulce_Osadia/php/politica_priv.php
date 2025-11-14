@@ -20,9 +20,63 @@ require '../config/config.php';
 
     <?php include 'menu.php'; ?>
 
+    <style>
+        body {
+            background-color: #fed794;
+            background-image: url("../img/Patrones_rosados/Recurso_108.png");
+            background-repeat: repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Resalta el título y mejora la legibilidad de los párrafos */
+        .tpolpriv {
+            text-align: center;
+            font-size: 2rem;
+            color: #3a2a16;
+            margin: 24px auto 12px;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+
+        .seccion_polpriv {
+            max-width: 980px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.92);
+            padding: 28px 32px;
+            border-radius: 14px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+        }
+
+        .seccion_polpriv p {
+            font-size: 1.14rem;
+            line-height: 1.75;
+            color: #2e2415;
+            margin: 0 0 16px;
+            letter-spacing: 0.2px;
+        }
+
+        .seccion_polpriv h2 {
+            font-size: 1.4rem;
+            color: #4a331c;
+            margin: 18px 0 10px;
+            border-bottom: 2px solid #e5c07b;
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+
+        .seccion_polpriv ul {
+            margin: 8px 0 16px 18px;
+        }
+
+        .seccion_polpriv li {
+            margin-bottom: 6px;
+        }
+    </style>
+
     <!--Aqui comienza la Política de privacidad-->
-    <h1 class="tpolpriv flash">Política de privacidad</h1>
+    
     <div class="seccion_polpriv fadeInUp">
+        <h1 class="tpolpriv flash">Política de privacidad</h1>
         <h1>Política de Privacidad de Dulce Osadia</h1>
         <p>La presente Política de Privacidad establece los términos en que Dulce Osadia usa y protege la
             información proporcionada por sus usuarios al utilizar su sitio web. Esta compañía está comprometida con la

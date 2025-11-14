@@ -93,8 +93,17 @@ $con = null;
     <main>
         <section class="contenedor">
             <div class="contenedor-items">
-                <h1 style="text-align: center;">Detalles de Pago</h1>
 
+                <div class="payment-section">
+                    <h1 style="text-align: center;">Detalles de Pago</h1>
+                    <p>Serás redirigido al portal seguro de Webpay para completar tu pago.</p>
+
+                    <form action="crear_transaccion.php" method="POST">
+                        <button type="submit" style="background-color: #d82b2b; color: white; padding: 15px 30px; border: none; border-radius: 5px; font-size: 18px; cursor: pointer;">
+                            Pagar con Webpay
+                        </button>
+                    </form>
+                </div>
                 <div class="resumen-pago">
                     <table>
                         <thead>
@@ -121,15 +130,7 @@ $con = null;
                     </table>
                 </div>
 
-                <div class="payment-section">
-                    <p>Serás redirigido al portal seguro de Webpay para completar tu pago.</p>
 
-                    <form action="crear_transaccion.php" method="POST">
-                        <button type="submit" style="background-color: #d82b2b; color: white; padding: 15px 30px; border: none; border-radius: 5px; font-size: 18px; cursor: pointer;">
-                            Pagar con Webpay
-                        </button>
-                    </form>
-                </div>
             </div>
         </section>
     </main>

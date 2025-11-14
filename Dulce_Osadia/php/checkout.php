@@ -45,15 +45,36 @@ $con = null;
         body {
             display: flex;
             flex-direction: column;
-            /* Apila los elementos verticalmente */
             min-height: 100vh;
-            /* El body ocupa como mínimo el 100% de la altura de la ventana */
             margin: 0;
-            /* Es buena práctica resetear el margen del body */
+            background-color: #fed794;
+            background-image: url("../img/Patrones_rosados/Recurso_108.png");
+            background-repeat: repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Contenedor visual similar al de las tarjetas del index */
+        .tarjetas-container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.92);
+            padding: 24px 28px;
+            border-radius: 14px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+        }
+
+        .tarjetas-container h1,
+        .tarjetas-container h2 {
+            color: #3a2a16;
+            text-align: center;
+            margin: 0 0 16px;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
         }
 
         /* Esta es la regla clave. 
-  Le dice al contenido principal que "crezca" y ocupe todo el espacio vertical disponible.
+ Le dice al contenido principal que "crezca" y ocupe todo el espacio vertical disponible.
 */
         .main-content {
             /* O la clase/etiqueta que hayas usado para tu contenido principal */
@@ -66,7 +87,7 @@ $con = null;
         }
 
         table {
-            width: 100%;
+            width: 100%; /* Ajustado de 200% a 100% para que quepa en el contenedor */
             border-collapse: collapse;
             margin-bottom: 20px;
             /* Espacio inferior entre la tabla y el botón */
@@ -77,6 +98,7 @@ $con = null;
             border: 1px solid #dddddd;
             text-align: center;
             padding: 8px;
+            vertical-align: middle; /* Asegura alineación vertical centrada */
         }
 
         th {
@@ -103,7 +125,7 @@ $con = null;
             /* Alineación a la derecha */
             margin-top: 10px;
             /* Espacio superior */
-
+            margin-bottom: 0; /* Ajuste de margen */
         }
 
         button.realizar-pago-btn {
@@ -117,17 +139,22 @@ $con = null;
         button.realizar-pago-btn:hover {
             background-color: #A0C3D2;
         }
+
+        /* Contenedor de acciones del checkout */
+        .acciones-pago {
+            text-align: right;
+            margin-top: 8px;
+        }
     </style>
 </head>
 
 <body>
     <?php include 'menu.php'; ?>
 
-    <!-- Main Content -->
     <main>
         <section class="contenedor">
             <div class="contenedor-items">
-                <div>
+                <div class="tarjetas-container">
                     <table>
                         <thead>
                             <tr>
@@ -162,27 +189,27 @@ $con = null;
                                         <td id="total_<?php echo $_id; ?>" name="total[]"><?php echo MONEDA . number_format($total, 0, ',', '.'); ?></td>
                                         <td><button class="realizar-pago-btn" onclick="eliminarProducto(<?php echo $_id; ?>)">Eliminar</button></td>
                                     </tr>
-                            <?php endforeach;
-                            endif; ?>
-                            <tr>
-                                <td colspan="3"></td>
-                                <td colspan="1">
-                                    <h3 id="total_general" name="total_general[]"><?php echo MONEDA . number_format($total_general, 0, ',', '.'); ?> </h3>
-                                </td>
-                                <td colspan="1"></td>
-                            </tr>
-                        </tbody>
+                                <?php endforeach; ?>
+
+                                <tr>
+                                    <td colspan="3" style="text-align: right; padding-right: 15px; font-weight: bold; font-size: 1.1em;">
+                                        Total General:
+                                    </td>
+                                    <td>
+                                        <h3 id="total_general" name="total_general[]"><?php echo MONEDA . number_format($total_general, 0, ',', '.'); ?> </h3>
+                                    </td>
+                                    <td>
+                                        <?php if (isset($_SESSION['user_cliente'])) { ?>
+                                            <button onclick="location.href='pago.php'" class="realizar-pago-btn">Realizar Pago</button>
+                                        <?php } else { ?>
+                                            <button onclick="location.href='pago.php'" class="realizar-pago-btn">Realizar Pago</button>
+                                        <?php } ?>
+                                    </td>
+                                </tr>
+                                <?php endif; ?> </tbody>
                     </table>
-                    <?php if ($lista_carrito != null) { ?>
-                        <div style="text-align: right;">
-                            <?php if (isset($_SESSION['user_cliente'])) { ?>
-                                <button onclick="location.href='pago.php'" class="realizar-pago-btn">Realizar Pago</button>
-                            <?php } else { ?>
-                                <button onclick="location.href='pago.php'" class="realizar-pago-btn">Realizar Pago</button>
-                            <?php } ?>
-                        </div>
-                </div>
-            <?php } ?>
+
+                    </div> </div>
         </section>
     </main>
 

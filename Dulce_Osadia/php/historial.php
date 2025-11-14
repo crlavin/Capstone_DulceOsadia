@@ -60,7 +60,7 @@ $resultado_insumos = $stmt_historial ? $stmt_historial->fetchAll(PDO::FETCH_ASSO
                     <th>Insumo</th>
                     <th>Última Actualización</th>
                     <th>Stock Actual (g)</th>
-                    <th>Precio por Kilo/ </th>
+                    <th>Precio por Kilo</th>
                     <th>Vencimiento</th>
                 </tr>
             </thead>

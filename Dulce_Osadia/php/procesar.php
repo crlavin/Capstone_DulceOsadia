@@ -29,6 +29,76 @@ function smart_number_format($number)
     return number_format($number, 2, ',', '.');
 }
 
+// Resolver archivo de audio según el nombre del producto
+function obtener_audio_producto($nombreProducto)
+{
+
+    static $AUDIOS_CLOUDINARY = [
+        'Bombon.mp3' => 'https://res.cloudinary.com/da4q9jiqr/video/upload/v1763121136/Bombon_kwn1ih.mp3',
+        'alfajorframbuesanegro.mp3' => 'https://res.cloudinary.com/da4q9jiqr/video/upload/v1763121293/alfajorframbuesanegro_eupdtz.mp3',
+        'alfajorframbuesablanco.mp3' => 'https://res.cloudinary.com/da4q9jiqr/video/upload/v1763121293/alfajorframbuesablanco_dzwkrg.mp3',
+        'audiobombondeavellana.mp3' => 'https://res.cloudinary.com/da4q9jiqr/video/upload/v1763121293/audiobombondeavellana_yrwmxv.mp3',
+        'alfajorblanco.mp3' => 'https://res.cloudinary.com/da4q9jiqr/video/upload/v1763121292/alfajorblanco_umvokp.mp3',
+        'alfajortradicional.mp3' => 'https://res.cloudinary.com/da4q9jiqr/video/upload/v1763121294/alfajortradicional_kbbzxx.mp3',
+        'audionuezchoc.mp3' => 'https://res.cloudinary.com/da4q9jiqr/video/upload/v1763121293/audionuezchoc_reyp04.mp3',
+        'audiobarradubai.mp3' => 'https://res.cloudinary.com/da4q9jiqr/video/upload/v1763121293/audiobarradubai_whwdrp.mp3',
+        'audiocuchuflies.mp3' => 'https://res.cloudinary.com/da4q9jiqr/video/upload/v1763121294/audiocuchuflies_zzhyow.mp3',
+        'trufasronaudio.mp3' => 'https://res.cloudinary.com/da4q9jiqr/video/upload/v1763121294/trufasronaudio_c47rhy.mp3',
+        'trufasdenaranjaaudio.mp3' => 'https://res.cloudinary.com/da4q9jiqr/video/upload/v1763121294/trufasdenaranjaaudio_z71n09.mp3',
+        'nuezsinazucaraudio.mp3' => 'https://res.cloudinary.com/da4q9jiqr/video/upload/v1763121294/nuezsinazucaraudio_ajisdz.mp3',
+        'cocadasaudio.mp3' => 'https://res.cloudinary.com/da4q9jiqr/video/upload/v1763121294/cocadasaudio_xahkok.mp3',
+    ];
+
+    $n = mb_strtolower($nombreProducto, 'UTF-8');
+    $n = strtr($n, [
+        'á' => 'a',
+        'é' => 'e',
+        'í' => 'i',
+        'ó' => 'o',
+        'ú' => 'u',
+        'ü' => 'u',
+        'ñ' => 'n'
+    ]);
+
+    $archivo = 'Bombon.mp3'; // predeterminado
+
+    if (strpos($n, 'avellana') !== false) {
+        $archivo = 'audiobombondeavellana.mp3';
+    } elseif (strpos($n, 'cuchufl') !== false) {
+        $archivo = 'audiocuchuflies.mp3';
+    } elseif (strpos($n, 'nuez') !== false && (strpos($n, 'choc') !== false || strpos($n, 'chocolate') !== false)) {
+        $archivo = 'audionuezchoc.mp3';
+    } elseif (strpos($n, 'cocada') !== false) {
+        $archivo = 'cocadasaudio.mp3';
+    } elseif (strpos($n, 'alfajor') !== false) {
+        if (strpos($n, 'frambuesa') !== false && strpos($n, 'blanco') !== false) {
+            $archivo = 'alfajorframbuesablanco.mp3';
+        } elseif (strpos($n, 'frambuesa') !== false && (strpos($n, 'negro') !== false || strpos($n, 'oscuro') !== false)) {
+            $archivo = 'alfajorframbuesanegro.mp3';
+        } elseif (strpos($n, 'blanco') !== false) {
+            $archivo = 'alfajorblanco.mp3';
+        } elseif (strpos($n, 'tradicional') !== false) {
+            $archivo = 'alfajortradicional.mp3';
+        }
+    } elseif (strpos($n, 'sin azucar') !== false && strpos($n, 'nuez') !== false) {
+        $archivo = 'nuezsinazucaraudio.mp3';
+    } elseif (strpos($n, 'trufa') !== false) {
+        if (strpos($n, 'naranja') !== false) {
+            $archivo = 'trufasdenaranjaaudio.mp3';
+        } elseif (strpos($n, 'ron') !== false) {
+            $archivo = 'trufasronaudio.mp3';
+        }
+    } elseif (strpos($n, 'dubai') !== false) {
+        $archivo = 'audiobarradubai.mp3';
+    }
+
+    // Si existe un enlace Cloudinary para este archivo, úsalo; si no, usa el archivo local
+    if (isset($AUDIOS_CLOUDINARY[$archivo]) && $AUDIOS_CLOUDINARY[$archivo]) {
+        return $AUDIOS_CLOUDINARY[$archivo];
+    }
+    return '../audios/' . $archivo;
+}
+
 // --- INICIALIZACIÓN DE VARIABLES ---
 $mensaje_info = $_SESSION['mensaje_info'] ?? null;
 unset($_SESSION['mensaje_info']);
@@ -75,10 +145,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
             $id_receta = $datos_presentacion['id_receta'];
             $total_unidades_a_producir = $cantidad_paquetes * $datos_presentacion['unidades_por_paquete'];
 
-            // Activar audio si es el producto correcto
-            if ($datos_presentacion['nombre_producto'] === 'Bombón crema de maní') {
-                $audio_a_reproducir = 'Bombon';
-            }
+            // Seleccionar audio según el nombre del producto
+            $audio_a_reproducir = obtener_audio_producto($datos_presentacion['nombre_producto']);
 
             // 2. CALCULAR INSUMOS NECESARIOS Y COSTOS usando precio_por_gramos
             // costo_total_insumo = cantidad_usada * total_unidades * precio_por_gramos (para 'gramos' o 'ml')
@@ -387,7 +455,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
                     <div class="audio-player-container">
                         <h4>Narración de la Receta:</h4>
                         <audio controls autoplay>
-                            <source src="../audios/<?php echo htmlspecialchars($audio_a_reproducir); ?>.mp3" type="audio/mpeg">
+                            <source src="<?= htmlspecialchars($audio_a_reproducir) ?>" type="audio/mpeg">
                         </audio>
                     </div>
                 <?php endif; ?>

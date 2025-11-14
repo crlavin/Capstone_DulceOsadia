@@ -19,10 +19,63 @@ require '../config/config.php';
 <body>
     <?php include 'menu.php'; ?>
 
-    <!--Aqui comienza los terminos y condiciones-->
-    <h1 class="ttercon flash">Terminos y condiciones</h1>
-    <div class="terminos_cond fadeInUp">
+    <style>
+        body {
+            background-color: #fed794;
+            background-image: url("../img/Patrones_rosados/Recurso_108.png");
+            background-repeat: repeat;
+            background-size: cover;
+            background-position: center;
+        }
 
+        /* Resaltar título y mejorar legibilidad en términos y condiciones */
+        .ttercon {
+            text-align: center;
+            font-size: 2rem;
+            color: #3a2a16;
+            margin: 24px auto 12px;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+
+        .terminos_cond {
+            max-width: 980px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.92);
+            padding: 28px 32px;
+            border-radius: 14px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+        }
+
+        .terminos_cond p {
+            font-size: 1.14rem;
+            line-height: 1.75;
+            color: #2e2415;
+            margin: 0 0 16px;
+            letter-spacing: 0.2px;
+        }
+
+        .terminos_cond h2 {
+            font-size: 1.4rem;
+            color: #4a331c;
+            margin: 18px 0 10px;
+            border-bottom: 2px solid #e5c07b;
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+
+        .terminos_cond ul {
+            margin: 8px 0 16px 18px;
+        }
+
+        .terminos_cond li {
+            margin-bottom: 6px;
+        }
+    </style>
+
+    <!--Aqui comienza los terminos y condiciones-->
+  
+    <div class="terminos_cond fadeInUp">
+  <h1 class="ttercon flash">Terminos y condiciones</h1>
 
         <body>
 
@@ -101,4 +154,5 @@ require '../config/config.php';
     <!-- Aquí terminan los términos y condiciones -->
 </body>
 <?php include 'footer.php'; ?>
+
 </html>

@@ -61,7 +61,11 @@ $sqlDetalle->execute([$idCompra]);
             background-color: #f4f4f4;
             color: #333;
             padding-bottom: 60px;
-            /* Prevent footer overlap */
+            background-color: #fed794;
+            background-image: url("../img/Patrones_rosados/Recurso_108.png");
+            background-repeat: repeat;
+            background-size: cover;
+            background-position: center;
         }
 
         .container {

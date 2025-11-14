@@ -37,11 +37,13 @@ $sql->execute([$idCliente]);
         body {
             display: flex;
             flex-direction: column;
-            /* Apila los elementos verticalmente */
             min-height: 100vh;
-            /* El body ocupa como mínimo el 100% de la altura de la ventana */
             margin: 0;
-            /* Es buena práctica resetear el margen del body */
+            background-color: #fed794;
+            background-image: url("../img/Patrones_rosados/Recurso_108.png");
+            background-repeat: repeat;
+            background-size: cover;
+            background-position: center;
         }
 
         /* Esta es la regla clave. 
@@ -132,7 +134,7 @@ $sql->execute([$idCliente]);
             <?php } ?>
         </div>
     </main>
-
+    <?php include 'footer.php'; ?>
 </body>
 
 
