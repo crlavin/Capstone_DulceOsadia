@@ -60,13 +60,13 @@ function obtener_audio_producto($nombreProducto)
         'ñ' => 'n'
     ]);
 
-    $archivo = 'Bombon.mp3'; // predeterminado
+    $archivo = 'bombon.mp3'; // predeterminado
 
     if (strpos($n, 'avellana') !== false) {
         $archivo = 'audiobombondeavellana.mp3';
     } elseif (strpos($n, 'cuchufl') !== false) {
         $archivo = 'audiocuchuflies.mp3';
-    } elseif (strpos($n, 'nuez') !== false && (strpos($n, 'choc') !== false || strpos($n, 'chocolate') !== false)) {
+    } elseif (strpos($n, 'nuez') !== false) {
         $archivo = 'audionuezchoc.mp3';
     } elseif (strpos($n, 'cocada') !== false) {
         $archivo = 'cocadasaudio.mp3';
