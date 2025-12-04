@@ -39,6 +39,34 @@ try {
     $mail->isHTML(true);
     $mail->Subject = 'Confirmacion de tu compra en Dulce Osadia - Orden ' . $response->getBuyOrder();
 
+    // Generar QR para retiro de compra
+    $orden = $response->getBuyOrder();
+    $monto = $response->getAmount();
+    $fechaIso = date('c');
+
+    // Payload del QR: JSON legible y fácil de validar al escanear
+    $qrPayload = json_encode([
+        'tienda' => 'Dulce Osadia',
+        'mensaje' => 'Con este codigo QR puedes retirar tu compra',
+        'orden' => $orden,
+        'monto' => $monto,
+        'fecha' => $fechaIso
+    ], JSON_UNESCAPED_UNICODE);
+
+    // URL del servicio de generación de QR (220x220)
+    $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' . urlencode($qrPayload);
+
+    // Intentar incrustar la imagen del QR como CID para mayor compatibilidad
+    $qrImgHtml = '';
+    $qrImageData = @file_get_contents($qrUrl);
+    if ($qrImageData !== false) {
+        $mail->addStringEmbeddedImage($qrImageData, 'qr_compra', 'qr.png', 'base64', 'image/png');
+        $qrImgHtml = '<img src="cid:qr_compra" alt="Código QR para retiro" style="width:220px;height:220px;border:1px solid #ddd;border-radius:8px" />';
+    } else {
+        // Fallback: referencia externa si no se pudo descargar la imagen
+        $qrImgHtml = '<img src="' . htmlspecialchars($qrUrl) . '" alt="Código QR para retiro" style="width:220px;height:220px;border:1px solid #ddd;border-radius:8px" />';
+    }
+
     // Crear un cuerpo de correo más completo
     $cuerpo = '
         <html>
@@ -48,19 +76,23 @@ try {
             <hr>
             <h3>Detalles de la Compra:</h3>
             <ul>
-                <li><strong>Folio de la orden:</strong> ' . $response->getBuyOrder() . '</li>
+                <li><strong>Folio de la orden:</strong> ' . $orden . '</li>
                 <li><strong>Fecha:</strong> ' . date('d-m-Y H:i:s') . '</li>
-                <li><strong>Total pagado:</strong> ' . MONEDA . number_format($response->getAmount(), 0, ',', '.') . '</li>
+                <li><strong>Total pagado:</strong> ' . MONEDA . number_format($monto, 0, ',', '.') . '</li>
                 <li><strong>Metodo de pago:</strong> Webpay</li>
             </ul>
-            <p>Puedes ver el detalle de tus compras en tu cuenta.</p>
+            <hr>
+            <h3>Retiro en tienda</h3>
+            <p>Con este código QR puedes retirar tu compra. Preséntalo en tienda (en tu teléfono o impreso).</p>
+            <div style="margin:12px 0;">' . $qrImgHtml . '</div>
+            <p style="font-size:12px;color:#555;">Si no ves el código, habilita la carga de imágenes o responde este correo.</p>
             <p>Saludos,<br>El equipo de Dulce Osadia</p>
         </body>
         </html>
     ';
 
     $mail->Body = $cuerpo;
-    $mail->AltBody = 'Gracias por tu compra. El ID de tu orden es ' . $response->getBuyOrder() . '.';
+    $mail->AltBody = 'Gracias por tu compra. Orden: ' . $orden . '. Presenta el siguiente código para retiro: ' . $qrPayload;
 
     $mail->send();
     // No mostramos un mensaje de éxito para no interferir con la redirección final
