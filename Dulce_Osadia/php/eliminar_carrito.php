@@ -1,6 +1,6 @@
 <?php
-require 'config/config.php';
-require 'config/database.php';
+require_once 'config/config.php';
+require_once 'config/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'];

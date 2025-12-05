@@ -1,8 +1,8 @@
 <?php
 
-require 'config/database.php';
-require 'config/config.php';
-require 'clienteFunciones.php';
+require_once 'config/database.php';
+require_once 'config/config.php';
+require_once 'clienteFunciones.php';
 
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $token = isset($_GET['token']) ? $_GET['token'] : '';

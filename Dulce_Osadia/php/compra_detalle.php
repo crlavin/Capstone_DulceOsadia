@@ -1,8 +1,8 @@
 <?php
 
-require 'config/database.php';
-require 'config/config.php';
-// require 'clienteFunciones.php'; // Asegúrate de que este archivo inicie la sesión
+require_once 'config/database.php';
+require_once 'config/config.php';
+// require_once 'clienteFunciones.php'; // Asegúrate de que este archivo inicie la sesión
 
 // Es crucial que la sesión ya esté iniciada antes de este punto
 if (empty($_SESSION['token'])) {

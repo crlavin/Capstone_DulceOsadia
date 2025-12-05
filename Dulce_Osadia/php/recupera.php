@@ -1,8 +1,8 @@
 <?php
 
-require 'config/database.php';
-require 'config/config.php';
-require 'clienteFunciones.php';
+require_once 'config/database.php';
+require_once 'config/config.php';
+require_once 'clienteFunciones.php';
 
 
 $errors = [];
@@ -34,7 +34,7 @@ if (!empty($_POST)) {
             $token = solicitaPassword($user_id, $con);
 
             if ($token !== null) {
-                require 'Mailer.php';
+                require_once 'Mailer.php';
                 $mailer = new Mailer();
 
                 $url = SITE_URL . '/reset_password.php?id=' . $user_id . '&token=' . $token;
@@ -188,7 +188,7 @@ if (!empty($_POST)) {
 
             <div class="form-group">
                 <label for="email">Correo electrónico</label>
-                <input class="form-control" type=email name="email" id="email" placeholder="Correo electrónico" required>
+                <input class="form-control" type=email name="email" id="email" placeholder="Correo electrónico" require_onced>
             </div>
 
             <div>

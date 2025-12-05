@@ -1,8 +1,8 @@
 <?php
 
-require 'config/database.php';
-require 'config/config.php';
-require 'clienteFunciones.php';
+require_once 'config/database.php';
+require_once 'config/config.php';
+require_once 'clienteFunciones.php';
 
 $user_id = $_GET['id'] ?? $_POST['user_id'] ?? '';
 $token = $_GET['token'] ?? $_POST['token'] ?? '';
@@ -180,12 +180,12 @@ if (!empty($_POST)) {
 
             <div class="form-group">
                 <label for="password">Nueva Contraseña</label>
-                <input class="form-control" type=password name="password" id="password" placeholder="Nueva Contraseña" required>
+                <input class="form-control" type=password name="password" id="password" placeholder="Nueva Contraseña" require_onced>
             </div>
 
             <div class="form-group">
                 <label for="repassword">Confirmar Contraseña</label>
-                <input class="form-control" type=password name="repassword" id="repassword" placeholder="Confirmar Contraseña" required>
+                <input class="form-control" type=password name="repassword" id="repassword" placeholder="Confirmar Contraseña" require_onced>
             </div>
 
             <div>

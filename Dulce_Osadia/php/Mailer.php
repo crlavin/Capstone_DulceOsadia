@@ -3,15 +3,15 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require_once '../phpmailer/src/PHPMailer.php';
-require_once '../phpmailer/src/SMTP.php';
-require_once '../phpmailer/src/Exception.php';
+require_once_once '../phpmailer/src/PHPMailer.php';
+require_once_once '../phpmailer/src/SMTP.php';
+require_once_once '../phpmailer/src/Exception.php';
 
 class Mailer
 {
     function enviarEmail($email, $asunto, $cuerpo)
     {
-        // No es necesario el 'require config.php' aquí,
+        // No es necesario el 'require_once config.php' aquí,
         // porque ya se cargó en el archivo 'registro.php' que llama a esta clase.
 
         $mail = new PHPMailer(true); // Habilitar excepciones es clave

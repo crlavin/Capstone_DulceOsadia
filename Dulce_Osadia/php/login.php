@@ -1,8 +1,8 @@
 <?php
 
-require 'config/database.php';
-require 'config/config.php';
-require 'clienteFunciones.php';
+require_once 'config/database.php';
+require_once 'config/config.php';
+require_once 'clienteFunciones.php';
 
 
 $errors = [];
@@ -164,11 +164,11 @@ if (!empty($_POST)) {
 
             <div class="form-group">
                 <label for="usuario">Usuario</label>
-                <input class="form-control" type=text name="usuario" id="usuario" placeholder="usuario" required autocomplete="username">
+                <input class="form-control" type=text name="usuario" id="usuario" placeholder="usuario" require_onced autocomplete="username">
             </div><br>
             <div class="form-group">
                 <label for="password">Contraseña</label>
-                <input class="form-control" type=password name="password" id="password" placeholder="Contraseña" required autocomplete="current-password">
+                <input class="form-control" type=password name="password" id="password" placeholder="Contraseña" require_onced autocomplete="current-password">
             </div>
 
             <div class="form-group">

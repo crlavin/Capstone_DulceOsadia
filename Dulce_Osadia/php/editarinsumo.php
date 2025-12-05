@@ -1,6 +1,6 @@
 <?php
-require 'config/database.php';
-require 'config/config.php';
+require_once 'config/database.php';
+require_once 'config/config.php';
 
 if (!isset($_SESSION['usuario']) || $_SESSION['usuario'] !== 'admin') {
     header("Location: login.php");
@@ -107,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <h2>Actualizar insumo</h2>
 
         <label for="id_insumo">Selecciona insumo:</label>
-        <select name="id_insumo" required>
+        <select name="id_insumo" require_onced>
             <option value="">-- Selecciona un insumo --</option>
             <?php
             $query_insumos = "SELECT id_insumo, nombre FROM insumos ORDER BY nombre ASC";
@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </select>
 
         <label for="cantidadActual">Cantidad actual (en gramos, ml o unidades):</label>
-        <input type="number" step="0.01" name="cantidadActual" placeholder="Ej: 1500.50" required>
+        <input type="number" step="0.01" name="cantidadActual" placeholder="Ej: 1500.50" require_onced>
 
         <label for="precio_presentacion_compra">Precio de Compra (por Kilo/Litro/Paquete $):</label>
         <input type="number" step="0.01" name="precio_presentacion_compra" placeholder="-- Opcional: solo si el precio cambió --">

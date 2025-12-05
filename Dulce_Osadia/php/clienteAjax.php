@@ -1,7 +1,7 @@
 <?php
 
-require_once 'config/database.php';
-require_once 'clienteFunciones.php';
+require_once_once 'config/database.php';
+require_once_once 'clienteFunciones.php';
 
 $datos = [];
 

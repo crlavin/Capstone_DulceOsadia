@@ -1,8 +1,8 @@
 <?php
 
-require 'config/database.php';
-require 'config/config.php';
-require 'clienteFunciones.php';
+require_once 'config/database.php';
+require_once 'config/config.php';
+require_once 'clienteFunciones.php';
 
 
 $errors = [];
@@ -45,7 +45,7 @@ if (!empty($_POST)) {
         $id = registraCliente([$nombres, $apellidos, $email, $telefono, $rut], $con);
         if ($id > 0) {
 
-            require 'Mailer.php';
+            require_once 'Mailer.php';
             $mailer = new Mailer();
             $token = generarToken();
             $pass_hash = password_hash($password, PASSWORD_DEFAULT);
@@ -190,37 +190,37 @@ if (!empty($_POST)) {
             <form class="row g-3" action="registro.php" method="post" autocomplete="off">
                 <div class="col-md-6">
                     <label for="nombres"><span class="text-danger">*</span>Nombres</label>
-                    <input type="text" name="nombres" id="nombres" class="form-control" required>
+                    <input type="text" name="nombres" id="nombres" class="form-control" require_onced>
                 </div><br>
                 <div class="col-md-6">
                     <label for="apellidos"><span class="text-danger">*</span>Apellidos</label>
-                    <input type="text" name="apellidos" id="apellidos" class="form-control" required>
+                    <input type="text" name="apellidos" id="apellidos" class="form-control" require_onced>
                 </div><br>
                 <div class="col-md-6">
                     <label for="email"><span class="text-danger">*</span>Correo electrónico</label>
-                    <input type="email" name="email" id="email" class="form-control" required>
+                    <input type="email" name="email" id="email" class="form-control" require_onced>
                     <span id="validaEmail" class="text-danger"></span>
                 </div><br>
                 <div class="col-md-6">
                     <label for="telefono"><span class="text-danger">*</span>Telefono</label>
-                    <input type="tel" name="telefono" id="telefono" class="form-control" required>
+                    <input type="tel" name="telefono" id="telefono" class="form-control" require_onced>
                 </div><br>
                 <div class="col-md-6">
                     <label for="rut"><span class="text-danger">*</span>Rut</label>
-                    <input type="text" name="rut" id="rut" class="form-control" required>
+                    <input type="text" name="rut" id="rut" class="form-control" require_onced>
                 </div><br>
                 <div class="col-md-6">
                     <label for="usuario"><span class="text-danger">*</span>Usuario</label>
-                    <input type="text" name="usuario" id="usuario" class="form-control" required>
+                    <input type="text" name="usuario" id="usuario" class="form-control" require_onced>
                     <span id="validaUsuario" class="text-danger"></span>
                 </div><br>
                 <div class="col-md-6">
                     <label for="password"><span class="text-danger">*</span>Contraseña</label>
-                    <input type="password" name="password" id="password" class="form-control" required>
+                    <input type="password" name="password" id="password" class="form-control" require_onced>
                 </div><br>
                 <div class="col-md-6">
                     <label for="repassword"><span class="text-danger">*</span>Repetir Contraseña</label>
-                    <input type="password" name="repassword" id="repassword" class="form-control" required>
+                    <input type="password" name="repassword" id="repassword" class="form-control" require_onced>
                 </div><br>
 
                 <i><b>Nota:</b> Los campos con astericos son obligatorios</i>

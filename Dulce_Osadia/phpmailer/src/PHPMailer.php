@@ -311,7 +311,7 @@ class PHPMailer
     /**
      * Whether to enable TLS encryption automatically if a server supports it,
      * even if `SMTPSecure` is not set to 'tls'.
-     * Be aware that in PHP >= 5.6 this requires that the server's certificates are valid.
+     * Be aware that in PHP >= 5.6 this require_onces that the server's certificates are valid.
      *
      * @var bool
      */
@@ -437,7 +437,7 @@ class PHPMailer
     /**
      * Whether to keep the SMTP connection open after each message.
      * If this is set to true then the connection will remain open after a send,
-     * and closing the connection will require an explicit call to smtpClose().
+     * and closing the connection will require_once an explicit call to smtpClose().
      * It's a good idea to use this if you are sending multiple messages as it reduces overhead.
      * See the mailing list example for how to use it.
      *
@@ -1359,7 +1359,7 @@ class PHPMailer
      * Check that a string looks like an email address.
      * Validation patterns supported:
      * * `auto` Pick best pattern automatically;
-     * * `pcre8` Use the squiloople.com pattern, requires PCRE > 8.0;
+     * * `pcre8` Use the squiloople.com pattern, require_onces PCRE > 8.0;
      * * `pcre` Use old PCRE implementation;
      * * `php` Use PHP built-in FILTER_VALIDATE_EMAIL;
      * * `html5` Use the pattern given by the HTML5 spec for 'email' type form input elements.
@@ -1441,10 +1441,10 @@ class PHPMailer
     }
 
     /**
-     * Tells whether IDNs (Internationalized Domain Names) are supported or not. This requires the
+     * Tells whether IDNs (Internationalized Domain Names) are supported or not. This require_onces the
      * `intl` and `mbstring` PHP extensions.
      *
-     * @return bool `true` if required functions for IDN support are present
+     * @return bool `true` if require_onced functions for IDN support are present
      */
     public static function idnSupported()
     {
@@ -1456,7 +1456,7 @@ class PHPMailer
      * Important: Address must be passed in same encoding as currently set in PHPMailer::$CharSet.
      * This function silently returns unmodified address if:
      * - No conversion is necessary (i.e. domain name is not an IDN, or is already in ASCII form)
-     * - Conversion to punycode is impossible (e.g. required PHP functions are not available)
+     * - Conversion to punycode is impossible (e.g. require_onced PHP functions are not available)
      *   or fails for any reason (e.g. domain contains characters not allowed in an IDN).
      *
      * @see PHPMailer::$CharSet
@@ -1467,7 +1467,7 @@ class PHPMailer
      */
     public function punyencodeAddress($address)
     {
-        //Verify we have required functions, CharSet, and at-sign.
+        //Verify we have require_onced functions, CharSet, and at-sign.
         $pos = strrpos($address, '@');
         if (
             !empty($this->CharSet) &&

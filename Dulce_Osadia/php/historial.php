@@ -1,6 +1,6 @@
 <?php
-require 'config/database.php';
-require 'config/config.php';
+require_once 'config/database.php';
+require_once 'config/config.php';
 
 if (!isset($_SESSION['usuario']) || $_SESSION['usuario'] !== 'admin') {
     header("Location: login.php");

@@ -1,6 +1,6 @@
 <?php
-require 'config/database.php';
-require 'config/config.php';
+require_once 'config/database.php';
+require_once 'config/config.php';
 
 if (!isset($_SESSION['usuario']) || $_SESSION['usuario'] !== 'admin') {
     header("Location: login.php");
@@ -349,7 +349,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
                 <h2>Planificar Producción</h2>
 
                 <label for="id_presentacion">Producto a fabricar:</label>
-                <select id="id_presentacion" name="id_presentacion" required>
+                <select id="id_presentacion" name="id_presentacion" require_onced>
                     <option value="">-- Selecciona un formato de venta --</option>
                     <?php
                     $query_presentaciones = "SELECT pv.id_presentacion, pv.nombre_presentacion 
@@ -364,7 +364,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
                 </select>
 
                 <label for="cantidad_paquetes">¿Cuántos paquetes (bolsas/cajas) quieres producir?</label>
-                <input type="number" id="cantidad_paquetes" name="cantidad_paquetes" min="1" required value="<?= htmlspecialchars($_POST['cantidad_paquetes'] ?? '1') ?>">
+                <input type="number" id="cantidad_paquetes" name="cantidad_paquetes" min="1" require_onced value="<?= htmlspecialchars($_POST['cantidad_paquetes'] ?? '1') ?>">
 
                 <button type="submit" name="accion" value="planificar">Planificar</button>
             </form>
