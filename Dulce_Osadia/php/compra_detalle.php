@@ -1,6 +1,6 @@
 <?php
 
-require '../config/database.php';
+require 'config/database.php';
 require '../config/config.php';
 // require 'clienteFunciones.php'; // Asegúrate de que este archivo inicie la sesión
 

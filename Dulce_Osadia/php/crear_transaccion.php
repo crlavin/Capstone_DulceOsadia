@@ -1,6 +1,6 @@
 <?php
 require '../config/config.php';
-require '../config/database.php';
+require 'config/database.php';
 
 // ✅ Usamos las mismas clases que en tu archivo de retorno
 use Transbank\Webpay\Options;

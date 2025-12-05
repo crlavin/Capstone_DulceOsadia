@@ -1,7 +1,7 @@
 <?php
 
 require '../config/config.php';
-require '../config/database.php';
+require 'config/database.php';
 
 if (isset($_POST['action'])) {
 
