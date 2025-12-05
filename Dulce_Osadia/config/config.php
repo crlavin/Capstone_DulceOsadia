@@ -21,7 +21,7 @@ $dotenv->safeLoad();
 define("CURRENCY", "CLP");
 define("KEY_TOKEN", "ZXC.qwe-876**");
 define("MONEDA", "$");
-define("SITE_URL","http://localhost/Dulce_Osadia/php");
+define("SITE_URL","https://dulceosadia.onrender.com");
 define("MAIL_HOST", "smtp.gmail.com");
 define("MAIL_USER", $_ENV['MAIL_USER']);
 define("MAIL_PASS", $_ENV['MAIL_PASS']);
