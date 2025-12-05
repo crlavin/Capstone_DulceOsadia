@@ -1,20 +1,22 @@
-# Usamos PHP con Apache
+# Usamos PHP 8.2 con Apache
 FROM php:8.2-apache
 
-# 1. Instalamos dependencias del sistema (incluyendo librerías SSL para Mongo)
+# 1. Instalamos dependencias del sistema (incluyendo librerías para curl y xml por si Transbank las pide)
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
     libzip-dev \
     libssl-dev \
-    pkg-config
+    libcurl4-openssl-dev \
+    pkg-config \
+    libxml2-dev
 
-# 2. Instalamos la extensión de MONGODB (Vital para Atlas)
+# 2. Instalamos extensión de MongoDB
 RUN pecl install mongodb \
     && docker-php-ext-enable mongodb
 
-# 3. Instalamos extensiones estándar (Zip y MySQL por si acaso quedó algo antiguo)
-RUN docker-php-ext-install pdo pdo_mysql zip
+# 3. Instalamos extensiones estándar + requeridas por SDKs
+RUN docker-php-ext-install pdo pdo_mysql zip soap curl
 
 # Habilitamos mod_rewrite
 RUN a2enmod rewrite
@@ -25,13 +27,15 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Configuramos directorio
 WORKDIR /var/www/html
 
-# Copiamos archivos de dependencias
+# Copiamos dependencias
 COPY composer.json composer.lock ./
 
-# Instalamos librerías de PHP
-RUN composer update --no-dev --optimize-autoloader
+# --- EL CAMBIO ESTÁ AQUÍ ---
+# Agregamos --ignore-platform-reqs para que no falle si no detecta alguna extensión durante el build
+RUN composer update --no-dev --optimize-autoloader --ignore-platform-reqs
+# ---------------------------
 
-# Copiamos el código fuente
+# Copiamos el resto del código
 COPY . .
 
 # Permisos
