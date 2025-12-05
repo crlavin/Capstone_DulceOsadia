@@ -1,36 +1,42 @@
-# Usamos PHP con Apache (igual que XAMPP)
+# Usamos PHP con Apache
 FROM php:8.2-apache
 
-# Instalamos extensiones del sistema necesarias para Composer y Zip
+# 1. Instalamos dependencias del sistema (incluyendo librerías SSL para Mongo)
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
-    libzip-dev
+    libzip-dev \
+    libssl-dev \
+    pkg-config
 
-# Instalamos extensiones de PHP requeridas (PDO MySQL es vital para tu proyecto)
+# 2. Instalamos la extensión de MONGODB (Vital para Atlas)
+RUN pecl install mongodb \
+    && docker-php-ext-enable mongodb
+
+# 3. Instalamos extensiones estándar (Zip y MySQL por si acaso quedó algo antiguo)
 RUN docker-php-ext-install pdo pdo_mysql zip
 
-# Habilitamos mod_rewrite de Apache (Necesario para rutas amigables/MVC)
+# Habilitamos mod_rewrite
 RUN a2enmod rewrite
 
-# Instalamos Composer (Para Transbank SDK y PHPMailer)
+# Instalamos Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Configuramos el directorio de trabajo
+# Configuramos directorio
 WORKDIR /var/www/html
 
 # Copiamos archivos de dependencias
 COPY composer.json composer.lock ./
 
-# Instalamos dependencias de PHP (Optimizado para producción)
+# Instalamos librerías de PHP
 RUN composer install --no-dev --optimize-autoloader
 
-# Copiamos el resto del código
+# Copiamos el código fuente
 COPY . .
 
-# Ajustamos permisos para Apache
+# Permisos
 RUN chown -R www-data:www-data /var/www/html
 RUN chmod -R 755 /var/www/html
 
-# Exponemos el puerto 80
+# Puerto
 EXPOSE 80
