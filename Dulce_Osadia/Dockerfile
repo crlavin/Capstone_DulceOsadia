@@ -1,46 +1,41 @@
 # Usamos PHP 8.2 con Apache
 FROM php:8.2-apache
 
-# 1. Instalamos dependencias del sistema (incluyendo librerías para curl y xml por si Transbank las pide)
+# 1. Dependencias del sistema
 RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    libzip-dev \
-    libssl-dev \
-    libcurl4-openssl-dev \
-    pkg-config \
-    libxml2-dev
+    git unzip libzip-dev libssl-dev libcurl4-openssl-dev pkg-config libxml2-dev
 
-# 2. Instalamos extensión de MongoDB
-RUN pecl install mongodb \
-    && docker-php-ext-enable mongodb
+# 2. Extensión MongoDB
+RUN pecl install mongodb && docker-php-ext-enable mongodb
 
-# 3. Instalamos extensiones estándar + requeridas por SDKs
+# 3. Extensiones PHP
 RUN docker-php-ext-install pdo pdo_mysql zip soap curl
 
-# Habilitamos mod_rewrite
+# Mod rewrite
 RUN a2enmod rewrite
 
-# Instalamos Composer
+# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Configuramos directorio
 WORKDIR /var/www/html
 
-# Copiamos dependencias
-COPY composer.json composer.lock ./
-
-# --- EL CAMBIO ESTÁ AQUÍ ---
-# Agregamos --ignore-platform-reqs para que no falle si no detecta alguna extensión durante el build
+# Copiamos dependencias y código
+COPY composer.json ./
+# IMPORTANTE: Usamos update e ignoramos plataforma para evitar errores de bloqueo
 RUN composer update --no-dev --optimize-autoloader --ignore-platform-reqs
-# ---------------------------
 
-# Copiamos el resto del código
 COPY . .
+
+# --- SECCIÓN NUEVA: CAMBIAR LA CARPETA PÚBLICA DE APACHE ---
+# Definimos que la carpeta pública real es /php
+ENV APACHE_DOCUMENT_ROOT /var/www/html/php
+
+# Reemplazamos la configuración interna de Apache automáticamente
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+# -----------------------------------------------------------
 
 # Permisos
 RUN chown -R www-data:www-data /var/www/html
 RUN chmod -R 755 /var/www/html
 
-# Puerto
 EXPOSE 80
