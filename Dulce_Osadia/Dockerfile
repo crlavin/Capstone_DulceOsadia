@@ -20,19 +20,20 @@ WORKDIR /var/www/html
 
 # Copiamos dependencias y código
 COPY composer.json ./
-# IMPORTANTE: Usamos update e ignoramos plataforma para evitar errores de bloqueo
+# Ignoramos plataforma para evitar bloqueos
 RUN composer update --no-dev --optimize-autoloader --ignore-platform-reqs
 
+# Copiamos TODO el proyecto (incluyendo css, img y php)
 COPY . .
 
-# --- SECCIÓN NUEVA: CAMBIAR LA CARPETA PÚBLICA DE APACHE ---
-# Definimos que la carpeta pública real es /php
-ENV APACHE_DOCUMENT_ROOT /var/www/html/php
+# --- SOLUCIÓN ERROR 404 (CSS/IMG) ---
+# 1. Movemos el contenido de la carpeta 'php' (index.php, etc.) a la raíz principal.
+#    Así 'index.php' quedará al lado de la carpeta 'css'.
+RUN cp -r php/* . 2>/dev/null || true
 
-# Reemplazamos la configuración interna de Apache automáticamente
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-# -----------------------------------------------------------
+# 2. NOTA: HE BORRADO LAS LÍNEAS QUE CAMBIABAN EL DOCUMENT_ROOT.
+#    Al dejarlo por defecto (/var/www/html), Apache puede ver 'index.php' Y TAMBIÉN 'css/'.
+# ------------------------------------
 
 # Permisos
 RUN chown -R www-data:www-data /var/www/html
