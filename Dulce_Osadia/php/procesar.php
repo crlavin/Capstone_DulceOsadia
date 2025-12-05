@@ -96,7 +96,8 @@ function obtener_audio_producto($nombreProducto)
     if (isset($AUDIOS_CLOUDINARY[$archivo]) && $AUDIOS_CLOUDINARY[$archivo]) {
         return $AUDIOS_CLOUDINARY[$archivo];
     }
-    return '../audios/' . $archivo;
+    // CORRECCIÓN RUTA: Quitamos el ../ porque ahora estamos en la raíz
+    return 'audios/' . $archivo;
 }
 
 // --- INICIALIZACIÓN DE VARIABLES ---
@@ -148,9 +149,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
             // Seleccionar audio según el nombre del producto
             $audio_a_reproducir = obtener_audio_producto($datos_presentacion['nombre_producto']);
 
-            // 2. CALCULAR INSUMOS NECESARIOS Y COSTOS usando precio_por_gramos
-            // costo_total_insumo = cantidad_usada * total_unidades * precio_por_gramos (para 'gramos' o 'ml')
-            // si la unidad es 'unidad' y existe precio_por_gramos, también multiplicamos por cantidad
+            // 2. CALCULAR INSUMOS NECESARIOS Y COSTOS
+            // CORRECCIÓN CRÍTICA: Cambiado 'detalleReceta' a 'detallereceta' (minúsculas)
             $sql_insumos = "
                 SELECT 
                     i.id_insumo, i.nombre AS insumo, dr.cantidad_usada * ? AS cantidad_necesaria,
@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
                             THEN dr.cantidad_usada * ? * i.precio_por_gramos
                         ELSE 0
                     END AS costo_total_insumo
-                FROM detalleReceta dr
+                FROM detallereceta dr
                 JOIN insumos i ON dr.id_insumo = i.id_insumo
                 WHERE dr.id_receta = ?
             ";
@@ -182,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
             if (count($resultado_plan) > 0) {
                 foreach ($resultado_plan as $fila) {
                     // Sumamos el costo de cada insumo al total de producción
-                    $costo_produccion_total += $fila['costo_total_insumo'] ?? 0; // Usar ?? 0 para evitar errores
+                    $costo_produccion_total += $fila['costo_total_insumo'] ?? 0;
                     if ($fila['cantidad_disponible'] < $fila['cantidad_necesaria']) {
                         $stock_suficiente = false;
                     }
@@ -192,8 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
                 $resultado_plan = null;
             }
 
-            // 3. CALCULAR FINANZAS (SECCIÓN MEJORADA)
-            // Priorizar costos calculados por insumos; si no hubo costo (ppg faltante), caer a precio_unitario
+            // 3. CALCULAR FINANZAS
             if ($costo_produccion_total <= 0 && !empty($datos_presentacion['precio_unitario']) && $datos_presentacion['precio_unitario'] > 0) {
                 $costo_produccion_total = $datos_presentacion['precio_unitario'] * $total_unidades_a_producir;
             }
@@ -202,9 +201,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
             if ($datos_presentacion['precio_venta'] > 0) {
                 $ingreso_total = $cantidad_paquetes * $datos_presentacion['precio_venta'];
                 $ganancia_estimada = $ingreso_total - $costo_produccion_total;
-
-                // Calcular métricas por paquete individual
-                // $costo_por_paquete ya calculado arriba
                 $ganancia_por_paquete = $datos_presentacion['precio_venta'] - $costo_por_paquete;
 
                 if ($datos_presentacion['precio_venta'] > 0) {
@@ -224,7 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
 }
 
 
-// ACCIÓN 2: CONFIRMAR Y RESERVAR INSUMOS (Transacción SQL para restar stock)
+// ACCIÓN 2: CONFIRMAR Y RESERVAR INSUMOS
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'confirmar') {
     if (isset($_SESSION['planificacion_actual'])) {
         $plan = $_SESSION['planificacion_actual'];
@@ -247,7 +243,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
     }
 }
 
-// ACCIÓN 3: CANCELAR LA ÚLTIMA RESERVA (Transacción SQL para sumar stock)
+// ACCIÓN 3: CANCELAR LA ÚLTIMA RESERVA
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'cancelar') {
     if (isset($_SESSION['ultima_reserva'])) {
         $ultima_reserva = $_SESSION['ultima_reserva'];
@@ -276,13 +272,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planificador de Producción</title>
-    <link rel="stylesheet" href="../css/estilosopcion2.css">
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../css/estilos.css">
-    <link rel="stylesheet" type="text/css" href="../css/normalize.css">
-    <link rel="stylesheet" type="text/css" href="../css/mobile.css">
-    <link rel="stylesheet" type="text/html" href="../productos.php">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- CORRECCIÓN RUTAS: Se quitaron los '../' ya que el archivo está en la raíz -->
+    <link rel="stylesheet" href="css/estilosopcion2.css">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/estilos.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/mobile.css">
+    <link rel="stylesheet" type="text/html" href="productos.php">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" xintegrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <style>
     .financial-summary {
@@ -353,8 +350,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
                     <option value="">-- Selecciona un formato de venta --</option>
                     <?php
                     $query_presentaciones = "SELECT pv.id_presentacion, pv.nombre_presentacion 
-                                                 FROM presentaciones_venta pv
-                                                 WHERE pv.estado = 'Activo' ORDER BY pv.nombre_presentacion ASC";
+                                             FROM presentaciones_venta pv
+                                             WHERE pv.estado = 'Activo' ORDER BY pv.nombre_presentacion ASC";
                     $result_presentaciones = $con->query($query_presentaciones);
                     while ($fila = $result_presentaciones->fetch(PDO::FETCH_ASSOC)) {
                         $selected = (isset($_POST['id_presentacion']) && $_POST['id_presentacion'] == $fila['id_presentacion']) ? 'selected' : '';
