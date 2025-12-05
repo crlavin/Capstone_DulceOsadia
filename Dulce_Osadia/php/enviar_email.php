@@ -4,11 +4,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-// Incluir archivos de PHPMailer
-require_once '../phpmailer/src/PHPMailer.php';
-require_once '../phpmailer/src/SMTP.php';
-require_once '../phpmailer/src/Exception.php';
-
 // Asegurarnos de que las variables de la compra existen
 if (!isset($response) || !isset($_SESSION['user_email'])) {
     echo "Error: No se encontraron los datos de la compra para enviar el correo.";
