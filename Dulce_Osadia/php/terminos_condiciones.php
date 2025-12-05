@@ -1,6 +1,6 @@
 <?php
 require 'config/database.php';
-require '../config/config.php';
+require 'config/config.php';
 ?>
 <!DOCTYPE html>
 <html lang="es" dir="ltr">

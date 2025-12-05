@@ -1,5 +1,5 @@
 <?php
-require '../config/config.php';
+require 'config/config.php';
 require 'config/database.php';
 
 // ✅ Usamos las mismas clases que en tu archivo de retorno

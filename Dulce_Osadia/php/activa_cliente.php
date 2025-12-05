@@ -1,7 +1,7 @@
 <?php
 
 require 'config/database.php';
-require '../config/config.php';
+require 'config/config.php';
 require 'clienteFunciones.php';
 
 $id = isset($_GET['id']) ? $_GET['id'] : '';

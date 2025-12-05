@@ -1,6 +1,6 @@
 <?php
 require 'config/database.php';
-require '../config/config.php';
+require 'config/config.php';
 
 $db = new Database();
 $con = $db->conectar();

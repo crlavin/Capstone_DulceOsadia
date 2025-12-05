@@ -1,6 +1,6 @@
 <?php
 require 'config/database.php';
-require '../config/config.php';
+require 'config/config.php';
 
 // Crear una instancia de la clase Database
 $db = new Database();

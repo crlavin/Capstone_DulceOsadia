@@ -1,6 +1,6 @@
 <?php
 require 'config/database.php';
-require '../config/config.php';
+require 'config/config.php';
 
 // Solo permite acceso a administradores
 if (!isset($_SESSION['usuario']) || $_SESSION['usuario'] !== 'admin') {

@@ -1,5 +1,5 @@
 <?php
-require '../config/config.php';
+require 'config/config.php';
 
 // Aceptar tanto 'id' como 'id_producto' para mayor compatibilidad
 if (isset($_POST['id']) || isset($_POST['id_producto'])) {

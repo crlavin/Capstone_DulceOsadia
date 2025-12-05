@@ -1,6 +1,6 @@
 <?php
 // Requerimos los archivos de configuración
-require '../config/config.php';
+require 'config/config.php';
 require 'config/database.php';
 
 // Usamos las clases del SDK de Transbank
