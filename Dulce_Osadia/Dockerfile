@@ -29,7 +29,7 @@ WORKDIR /var/www/html
 COPY composer.json composer.lock ./
 
 # Instalamos librerías de PHP
-RUN composer install --no-dev --optimize-autoloader
+RUN composer update --no-dev --optimize-autoloader
 
 # Copiamos el código fuente
 COPY . .
