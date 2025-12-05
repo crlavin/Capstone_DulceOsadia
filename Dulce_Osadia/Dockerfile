@@ -23,17 +23,17 @@ COPY composer.json ./
 # Ignoramos plataforma para evitar bloqueos
 RUN composer update --no-dev --optimize-autoloader --ignore-platform-reqs
 
-# Copiamos TODO el proyecto (incluyendo css, img y php)
+# Copiamos TODO el proyecto
 COPY . .
 
-# --- SOLUCIÓN ERROR 404 (CSS/IMG) ---
-# 1. Movemos el contenido de la carpeta 'php' (index.php, etc.) a la raíz principal.
-#    Así 'index.php' quedará al lado de la carpeta 'css'.
+# --- LIMPIEZA DE RUTAS (SOLUCIÓN FINAL) ---
+# 1. Movemos el contenido de 'php/' a la raíz principal
 RUN cp -r php/* . 2>/dev/null || true
 
-# 2. NOTA: HE BORRADO LAS LÍNEAS QUE CAMBIABAN EL DOCUMENT_ROOT.
-#    Al dejarlo por defecto (/var/www/html), Apache puede ver 'index.php' Y TAMBIÉN 'css/'.
-# ------------------------------------
+# 2. ¡BORRAMOS la carpeta 'php' original!
+# Esto evita que entres por error a /php/index.php y tengas errores de rutas.
+RUN rm -rf php
+# ------------------------------------------
 
 # Permisos
 RUN chown -R www-data:www-data /var/www/html
