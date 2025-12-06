@@ -12,7 +12,7 @@ $_SESSION['token'] = $token;
 $idCliente = $_SESSION['user_id'];
 
 $sql = $con->prepare("SELECT id_transaccion, fecha, status, total FROM compra WHERE
-id_cliente = ? ORDER BY DATE(fecha) DESC");
+id_cliente = ? ORDER BY fecha DESC");
 $sql->execute([$idCliente]);
 
 ?>
