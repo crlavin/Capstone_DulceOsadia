@@ -7,7 +7,7 @@ use PHPMailer\PHPMailer\Exception;
 // 1. VALIDACIÓN DE DATOS
 $destinatario = $_SESSION['user_email'] ?? $email_cliente ?? null;
 // Si no hay nombre en sesión, usamos 'Cliente' por defecto
-$nombreCliente = $_SESSION['user_name'] ?? 'Amante del Chocolate'; 
+$nombreCliente = $_SESSION['user_name'] ?? 'Amante del Chocolate';
 
 if (empty($destinatario) || !isset($response)) {
     error_log("❌ Error Mailer: Faltan datos para enviar el correo.");
@@ -20,7 +20,7 @@ try {
     // 2. CONFIGURACIÓN TÉCNICA (Brevo + Puerto 2525)
     $mail->isSMTP();
     // Usamos gethostbyname para conexión rápida en Render
-    $mail->Host       = gethostbyname('smtp-relay.brevo.com'); 
+    $mail->Host       = gethostbyname('smtp-relay.brevo.com');
     $mail->SMTPAuth   = true;
     $mail->Username   = MAIL_USER;
     $mail->Password   = MAIL_PASS;
@@ -50,8 +50,8 @@ try {
 
     // 5. GENERAR QR (Alta Calidad)
     $qrData = json_encode([
-        'orden' => $orden, 
-        'monto' => $response->getAmount(), 
+        'orden' => $orden,
+        'monto' => $response->getAmount(),
         'tienda' => 'Dulce Osadia'
     ]);
     // Usamos margin=1 para que el QR no quede pegado al borde y ecLevel=Q para mejor lectura
@@ -131,8 +131,12 @@ try {
                     <p style='margin-top: 10px; font-size: 12px; color: #777;'>Código único: $orden</p>
                 </div>
 
-                <div style='text-align: center;'>
-                    <a href='" . SITE_URL . "' class='btn'>Volver a la Tienda</a>
+               <div style='text-align: center; margin-top: 30px;'>
+                    <!-- Ponemos el estilo directamente en la etiqueta A -->
+                    <a href='" . SITE_URL . "' target='_blank' style='display: inline-block; background-color: #d82b2b; color: #ffffff !important; text-decoration: none !important; padding: 14px 30px; border-radius: 50px; font-weight: bold; font-size: 16px; border: 1px solid #d82b2b;'>
+                        <!-- Span interno por si el cliente de correo ignora el estilo del enlace -->
+                        <span style='color: #ffffff !important; text-decoration: none;'>Volver a la Tienda</span>
+                    </a>
                 </div>
             </div>
 
@@ -151,8 +155,6 @@ try {
     $mail->AltBody = "Hola $nombreCliente. Gracias por tu compra #$orden por un total de $$monto. Presenta este número de orden para retirar tu pedido.";
 
     $mail->send();
-
 } catch (Exception $e) {
     error_log("❌ ERROR MAILER: " . $mail->ErrorInfo);
 }
-?>
