@@ -91,7 +91,7 @@ $top_productos = $stmt_top->fetchAll(PDO::FETCH_ASSOC);
 
   <marquee behavior="scroll" direction="left">Bienvenidos a la página oficial de Dulce Osadía!</marquee>
 
-  <script src="../js/index.js"></script>
+  <script src="js/index.js"></script>
   </nav>
 
   <br />
