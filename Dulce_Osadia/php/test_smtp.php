@@ -12,8 +12,8 @@ use PHPMailer\PHPMailer\Exception;
 
 // --- DATOS DIRECTOS (SIN VARIABLES DE ENTORNO) ---
 // Escribe aquí tus datos reales entre comillas
-$usuario_brevo = 'dulceosadia02@gmail.com'; // Tu correo de login en Brevo
-$clave_smtp    = 'PegarAquiTuClaveLargaDeBrevo'; // La clave que empieza con xsmtp...
+$usuario_brevo = '9d789c001@smtp-brevo.com'; // Tu correo de login en Brevo
+$clave_smtp    = 'UWDa4QzwYMvB73sO'; // La clave que empieza con xsmtp...
 
 $mail = new PHPMailer(true);
 
@@ -31,7 +31,7 @@ try {
     $mail->Password   = $clave_smtp;
     
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port       = 587; // Probemos 587 estándar primero
+    $mail->Port       = 2525;
     $mail->CharSet    = 'UTF-8';
 
     // Opciones para evitar bloqueos SSL
