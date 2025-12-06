@@ -1,118 +1,89 @@
 <?php
 
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-// 1. VALIDACIÓN DE SEGURIDAD Y DATOS
-// Intentamos obtener el correo de la sesión, o usamos la variable $email_cliente del archivo padre.
+// 1. VALIDACIÓN
 $destinatario = $_SESSION['user_email'] ?? $email_cliente ?? null;
 $nombreCliente = $_SESSION['user_name'] ?? 'Cliente';
 
-// Si no hay destinatario o no hay datos de la transacción, guardamos error y salimos.
 if (empty($destinatario) || !isset($response)) {
-    error_log("❌ Error Mailer: No se puede enviar correo. Faltan datos (Email o Response).");
-    return; // Salimos del script sin romper la página
+    error_log("❌ Error Mailer: Faltan datos.");
+    return;
 }
 
 $mail = new PHPMailer(true);
 
 try {
-    // 2. CONFIGURACIÓN DEL SERVIDOR SMTP
-    // $mail->SMTPDebug = 2; // Descomentar solo para depuración en pantalla (cuidado en producción)
+    // 2. CONFIGURACIÓN TÉCNICA (Puerto 2525 + Brevo)
     $mail->isSMTP();
-    $mail->Host       = MAIL_HOST;
+    
+    // IP Directa para velocidad y estabilidad en Render
+    $mail->Host       = gethostbyname('smtp-relay.brevo.com');
+    
     $mail->SMTPAuth   = true;
-    $mail->Username   = MAIL_USER;
-    $mail->Password   = MAIL_PASS;
+    $mail->Username   = MAIL_USER; // El usuario técnico (9d789c001...)
+    $mail->Password   = MAIL_PASS; // La clave API
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port       = MAIL_PORT;
+    $mail->Port       = 2525;      // Puerto desbloqueado
     $mail->CharSet    = 'UTF-8';
     $mail->setLanguage('es');
 
-    // 3. REMITENTE Y DESTINATARIO
-    $mail->setFrom(MAIL_USER, 'Dulce Osadía');
-    $mail->addAddress($destinatario, $nombreCliente);
-    
-    // Opcional: Copia oculta para el administrador
-    // $mail->addBCC(MAIL_USER); 
+    // Permisos SSL para nube
+    $mail->SMTPOptions = array(
+        'ssl' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        )
+    );
 
-    // 4. DATOS DE LA COMPRA
+    // 3. REMITENTE (Estética)
+    // Aquí ponemos tu correo real para que el cliente vea algo bonito
+    $mail->setFrom('dulceosadia02@gmail.com', 'Dulce Osadía');
+    
+    $mail->addAddress($destinatario, $nombreCliente);
+    $mail->addBCC('dulceosadia02@gmail.com'); // Copia oculta para ti
+
+    // 4. DATOS
     $orden = $response->getBuyOrder();
     $monto = number_format($response->getAmount(), 0, ',', '.');
     $fecha = date('d-m-Y H:i');
 
-    // 5. GENERACIÓN DEL CÓDIGO QR (Vía QuickChart API)
-    // Creamos una URL de imagen directa. Es más compatible con Gmail/Outlook que adjuntar archivos.
-    $qrData = json_encode([
-        'orden' => $orden,
-        'monto' => $response->getAmount(),
-        'fecha' => date('c'),
-        'tienda' => 'Dulce Osadia'
-    ]);
-    
-    // URL segura para la imagen del QR
+    // 5. QR
+    $qrData = json_encode(['orden' => $orden, 'monto' => $response->getAmount(), 'tienda' => 'Dulce Osadia']);
     $qrUrl = "https://quickchart.io/qr?text=" . urlencode($qrData) . "&size=300&ecLevel=H&margin=1";
 
-    // 6. CONTENIDO DEL CORREO (HTML)
+    // 6. HTML
     $mail->isHTML(true);
-    $mail->Subject = "Confirmación de compra #$orden - Dulce Osadía";
+    $mail->Subject = "Confirmación de compra #$orden";
 
     $cuerpo = "
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <style>
-            body { font-family: Arial, sans-serif; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; }
-            .header { background-color: #d82b2b; padding: 20px; text-align: center; color: white; }
-            .content { padding: 30px; background-color: #ffffff; }
-            .details { background-color: #f9f9f9; border-left: 4px solid #d82b2b; padding: 15px; margin: 20px 0; }
-            .qr-container { text-align: center; margin-top: 30px; }
-            .qr-img { width: 200px; height: 200px; border: 1px solid #ddd; padding: 5px; border-radius: 5px; }
-            .footer { background-color: #f1f1f1; padding: 15px; text-align: center; font-size: 12px; color: #666; }
-        </style>
-    </head>
-    <body>
-        <div class='container'>
-            <div class='header'>
-                <h1 style='margin:0; font-size: 24px;'>¡Gracias por tu compra!</h1>
+    <div style='font-family: sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px;'>
+        <div style='background: #d82b2b; color: white; padding: 20px; text-align: center;'>
+            <h2 style='margin:0;'>¡Pedido Confirmado!</h2>
+        </div>
+        <div style='padding: 20px;'>
+            <p>Hola <strong>$nombreCliente</strong>,</p>
+            <p>Tu compra ha sido exitosa.</p>
+            <div style='background:#f9f9f9; padding:10px; margin:10px 0; border-left:4px solid #d82b2b;'>
+                <strong>Orden:</strong> $orden <br>
+                <strong>Total:</strong> $$monto
             </div>
-            
-            <div class='content'>
-                <p>Hola <strong>$nombreCliente</strong>,</p>
-                <p>Hemos recibido tu pago exitosamente. Aquí tienes el resumen de tu pedido:</p>
-                
-                <div class='details'>
-                    <p><strong>N° Orden:</strong> $orden</p>
-                    <p><strong>Fecha:</strong> $fecha</p>
-                    <p><strong>Total:</strong> $$monto</p>
-                </div>
-
-                <div class='qr-container'>
-                    <p><strong>Muestra este código QR para retirar en tienda:</strong></p>
-                    <img src='$qrUrl' alt='Código QR de Retiro' class='qr-img'>
-                    <p style='font-size: 12px; color: #999;'>Código único de retiro</p>
-                </div>
-            </div>
-
-            <div class='footer'>
-                <p>Dulce Osadía - Repostería Artesanal</p>
-                <p>Si tienes dudas, responde a este correo.</p>
+            <div style='text-align: center; margin: 20px;'>
+                <p>Código de retiro:</p>
+                <img src='$qrUrl' alt='QR' style='width: 150px;'>
             </div>
         </div>
-    </body>
-    </html>
-    ";
+    </div>";
 
-    $mail->Body    = $cuerpo;
-    $mail->AltBody = "Gracias por tu compra. Orden: $orden. Total: $$monto. Presenta este número de orden para retirar.";
+    $mail->Body = $cuerpo;
+    $mail->AltBody = "Compra exitosa. Orden: $orden. Total: $$monto";
 
-    // 7. ENVIAR
     $mail->send();
-    // error_log("✅ Correo enviado a $destinatario");
 
 } catch (Exception $e) {
-    // Si falla, guardamos el error en el log pero NO detenemos la ejecución
-    error_log("❌ ERROR CRÍTICO MAILER: " . $mail->ErrorInfo);
+    error_log("❌ ERROR MAILER: " . $mail->ErrorInfo);
 }
 ?>
